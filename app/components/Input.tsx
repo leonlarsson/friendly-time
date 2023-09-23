@@ -24,7 +24,11 @@ export default () => {
 
   return (
     <>
-      <input className="mb-2 w-full rounded-md border border-black/50 p-2 text-xl text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="text" placeholder="next friday at 6pm" value={input} onChange={e => setInput(e.target.value)} />
+      <div className="mb-3 flex flex-wrap justify-between gap-2">
+        <input className="flex-1 rounded-md border border-black/50 p-2 text-xl text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="text" placeholder="next friday at 6pm" value={input} onChange={e => setInput(e.target.value)} />
+        <input className="rounded-md border border-black/50 p-2 text-xl text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="datetime-local" value={parsedDate?.toISOString().slice(0, 16)} onChange={e => setInput(e.target.value)} />
+      </div>
+
       <div className="flex flex-wrap gap-2">
         {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45", "last friday", "in 69 days at 4:20 pm"].map(example => (
           <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-700" onClick={() => setInput(example)}>
