@@ -53,7 +53,12 @@ export default () => {
           This app uses{" "}
           <a className="font-semibold underline" href="https://github.com/wanasit/chrono" target="_blank">
             wanasit/chrono
+          </a>{" "}
+          and was created by{" "}
+          <a className="font-semibold underline" href="https://x.com/mozzyfx" target="_blank">
+            me
           </a>
+          .
         </span>
       </details>
 
