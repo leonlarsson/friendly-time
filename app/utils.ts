@@ -1,6 +1,12 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 dayjs.extend(relativeTime);
+dayjs.extend(timezone);
+dayjs.extend(utc);
+dayjs.extend(advancedFormat);
 
 export const getDiscordTimestamps = (date: Date | null) => ({
   "Short Time": {
@@ -33,6 +39,12 @@ export const getDiscordTimestamps = (date: Date | null) => ({
   }
 });
 
+export const getTimezones = (date: Date | null) =>
+  timezones.map(timezone => ({
+    city: timezone.city,
+    result: date ? dayjs(date).tz(timezone.code).format("dddd, MMMM D, YYYY HH:mm A z") : null
+  }));
+
 export const getWeekNumber = (date: Date): string => {
   const d: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -40,3 +52,31 @@ export const getWeekNumber = (date: Date): string => {
   const weekNumber: number = Math.ceil(((d.valueOf() - yearStart.valueOf()) / 86400000 + 1) / 7);
   return weekNumber.toString();
 };
+
+const timezones = [
+  { city: "Amsterdam", code: "Europe/Amsterdam" },
+  { city: "Berlin", code: "Europe/Berlin" },
+  { city: "Brussels", code: "Europe/Brussels" },
+  { city: "Cairo", code: "Africa/Cairo" },
+  { city: "Chicago", code: "America/Chicago" },
+  { city: "Denver", code: "America/Denver" },
+  { city: "Dubai", code: "Asia/Dubai" },
+  { city: "Hong Kong", code: "Asia/Hong_Kong" },
+  { city: "Honolulu", code: "Pacific/Honolulu" },
+  { city: "Istanbul", code: "Europe/Istanbul" },
+  { city: "London", code: "Europe/London" },
+  { city: "Los Angeles", code: "America/Los_Angeles" },
+  { city: "Madrid", code: "Europe/Madrid" },
+  { city: "Mexico City", code: "America/Mexico_City" },
+  { city: "Moscow", code: "Europe/Moscow" },
+  { city: "New York", code: "America/New_York" },
+  { city: "Paris", code: "Europe/Paris" },
+  { city: "Rio de Janeiro", code: "America/Sao_Paulo" },
+  { city: "Rome", code: "Europe/Rome" },
+  { city: "Seoul", code: "Asia/Seoul" },
+  { city: "Singapore", code: "Asia/Singapore" },
+  { city: "Stockholm", code: "Europe/Stockholm" },
+  { city: "Sydney", code: "Australia/Sydney" },
+  { city: "Tokyo", code: "Asia/Tokyo" },
+  { city: "Auckland", code: "Pacific/Auckland" }
+];

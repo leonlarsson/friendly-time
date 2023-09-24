@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { parseDate, strict } from "chrono-node";
-import { getDiscordTimestamps, getWeekNumber } from "../utils";
+import { getDiscordTimestamps, getTimezones, getWeekNumber } from "../utils";
 
 export const Input = () => {
   const [textInput, setTextInput] = useState(""); // State for text input
@@ -16,7 +16,6 @@ export const Input = () => {
     Local: parsedDate?.toString(),
     "UTC Date": parsedDate?.toUTCString(),
     "ISO Date": parsedDate?.toISOString(),
-    Time: parsedDate?.toLocaleTimeString(),
     "Day of the Month": parsedDate?.getDate(),
     "Month of the Year": parsedDate ? parsedDate?.getMonth() + 1 : null,
     Year: parsedDate?.getFullYear(),
@@ -99,6 +98,17 @@ export const Input = () => {
             {Object.entries(getDiscordTimestamps(parsedDate)).map(([key, value]) => (
               <span key={key}>
                 {key}: <span className="select-all font-medium dark:font-semibold">{value.value ?? "Invalid Date"}</span> = <q>{value.result}</q>
+              </span>
+            ))}
+          </div>
+        </details>
+
+        <details>
+          <summary className="cursor-pointer font-semibold underline">Timezones</summary>
+          <div className="flex flex-col gap-2 py-2">
+            {getTimezones(parsedDate).map(timezone => (
+              <span key={timezone.city}>
+                {timezone.city}: <span className="select-all font-medium dark:font-semibold">{timezone.result ?? "Invalid Date"}</span>
               </span>
             ))}
           </div>
