@@ -52,7 +52,7 @@ export const Input = () => {
 
       <div className="flex flex-wrap gap-2">
         {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45", "last friday", "in 69 days at 4:20 pm"].map(example => (
-          <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-700" onClick={() => onTextInput(example)}>
+          <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800" onClick={() => onTextInput(example)}>
             {example}
           </button>
         ))}
@@ -87,7 +87,7 @@ export const Input = () => {
 
       <div className="flex flex-col gap-2">
         {Object.entries(parsedDateFormats).map(([key, value]) => (
-          <span key={key}>
+          <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
             {key}: <span className="select-all font-medium dark:font-semibold">{value ?? "Invalid Date"}</span>
           </span>
         ))}
@@ -96,7 +96,7 @@ export const Input = () => {
           <summary className="cursor-pointer font-semibold underline">Discord Timestamps</summary>
           <div className="flex flex-col gap-2 py-2">
             {Object.entries(getDiscordTimestamps(parsedDate)).map(([key, value]) => (
-              <span key={key}>
+              <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
                 {key}: <span className="select-all font-medium dark:font-semibold">{value.value ?? "Invalid Date"}</span> = <q>{value.result}</q>
               </span>
             ))}
@@ -107,7 +107,7 @@ export const Input = () => {
           <summary className="cursor-pointer font-semibold underline">Timezones</summary>
           <div className="flex flex-col gap-2 py-2">
             {getTimezones(parsedDate).map(timezone => (
-              <span key={timezone.city}>
+              <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
                 {timezone.city}: <span className="select-all font-medium dark:font-semibold">{timezone.result ?? "Invalid Date"}</span>
               </span>
             ))}
