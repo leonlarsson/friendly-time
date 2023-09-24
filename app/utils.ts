@@ -51,8 +51,8 @@ export const getDiscordTimestamps = (date: Date | null) => ({
   }
 });
 
-export const getTimezones = (date: Date | null, use24HourFormat: boolean) =>
-  timezones.map(timezone => ({
+export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortByTime: boolean) =>
+  (sortByTime ? timezonesSortedByTime : timezones).map(timezone => ({
     city: timezone.city,
     result: date
       ? dayjs(date)
@@ -71,6 +71,7 @@ export const getWeekNumber = (date: Date): string => {
 
 const timezones = [
   { city: "Amsterdam", code: "Europe/Amsterdam" },
+  { city: "Auckland", code: "Pacific/Auckland" },
   { city: "Berlin", code: "Europe/Berlin" },
   { city: "Brussels", code: "Europe/Brussels" },
   { city: "Cairo", code: "Africa/Cairo" },
@@ -93,6 +94,32 @@ const timezones = [
   { city: "Singapore", code: "Asia/Singapore" },
   { city: "Stockholm", code: "Europe/Stockholm" },
   { city: "Sydney", code: "Australia/Sydney" },
+  { city: "Tokyo", code: "Asia/Tokyo" }
+];
+
+const timezonesSortedByTime = [
+  { city: "Honolulu", code: "Pacific/Honolulu" },
+  { city: "Auckland", code: "Pacific/Auckland" },
+  { city: "Sydney", code: "Australia/Sydney" },
   { city: "Tokyo", code: "Asia/Tokyo" },
-  { city: "Auckland", code: "Pacific/Auckland" }
+  { city: "Singapore", code: "Asia/Singapore" },
+  { city: "Hong Kong", code: "Asia/Hong_Kong" },
+  { city: "Seoul", code: "Asia/Seoul" },
+  { city: "Dubai", code: "Asia/Dubai" },
+  { city: "Moscow", code: "Europe/Moscow" },
+  { city: "Istanbul", code: "Europe/Istanbul" },
+  { city: "Berlin", code: "Europe/Berlin" },
+  { city: "Stockholm", code: "Europe/Stockholm" },
+  { city: "Paris", code: "Europe/Paris" },
+  { city: "Amsterdam", code: "Europe/Amsterdam" },
+  { city: "Brussels", code: "Europe/Brussels" },
+  { city: "Rome", code: "Europe/Rome" },
+  { city: "Madrid", code: "Europe/Madrid" },
+  { city: "London", code: "Europe/London" },
+  { city: "Cairo", code: "Africa/Cairo" },
+  { city: "Rio de Janeiro", code: "America/Sao_Paulo" },
+  { city: "New York", code: "America/New_York" },
+  { city: "Chicago", code: "America/Chicago" },
+  { city: "Mexico City", code: "America/Mexico_City" },
+  { city: "Los Angeles", code: "America/Los_Angeles" }
 ];

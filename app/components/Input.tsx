@@ -10,6 +10,7 @@ export const Input = () => {
   const [useDateInput, setUseDateInput] = useState(false); // State for toggling between text input and datetime-local input
   const [strictMode, setStrictMode] = useState(false);
   const [use24HourFormat, setUse24HourFormat] = useState(false);
+  const [sortTimezonesByTime, setSortTimezonesByTime] = useState(false);
 
   const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
@@ -63,7 +64,15 @@ export const Input = () => {
               <input type="checkbox" className="form-checkbox" checked={use24HourFormat} onChange={() => setUse24HourFormat(!use24HourFormat)} />
               <span>Display 24-hour time format</span>
             </label>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, display time using the 24-hour format for the timezones.</p>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, display time using the 24-hour format for the timezones. Otherwise, use 12-hour format.</p>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="form-checkbox" checked={sortTimezonesByTime} onChange={() => setSortTimezonesByTime(!sortTimezonesByTime)} />
+              <span>Sort timezones by time</span>
+            </label>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, sort list of timezones by their time difference. Otherwise, sort alphabetically.</p>
           </div>
         </div>
 
@@ -103,7 +112,7 @@ export const Input = () => {
         <details>
           <summary className="cursor-pointer font-semibold underline">Timezones</summary>
           <div className="flex flex-col gap-1 py-2">
-            {getTimezones(parsedDate, use24HourFormat).map(timezone => (
+            {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime).map(timezone => (
               <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
                 <span className="text-lg underline"> {timezone.city}</span>
                 <br />
