@@ -8,8 +8,9 @@ export const Input = () => {
   const [textInput, setTextInput] = useState(""); // State for text input
   const [dateInput, setDateInput] = useState(""); // State for datetime-local input
   const [useDateInput, setUseDateInput] = useState(false); // State for toggling between text input and datetime-local input
-
   const [strictMode, setStrictMode] = useState(false);
+  const [use24HourFormat, setUse24HourFormat] = useState(false);
+
   const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
   const parsedDateFormats = {
@@ -68,6 +69,14 @@ export const Input = () => {
             </label>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, parse only formal date patterns.</p>
           </div>
+
+          <div>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="form-checkbox" checked={use24HourFormat} onChange={() => setUse24HourFormat(!use24HourFormat)} />
+              <span>Display 24-hour time format</span>
+            </label>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, display time using the 24-hour format for the timezones.</p>
+          </div>
         </div>
 
         <span>
@@ -106,7 +115,7 @@ export const Input = () => {
         <details>
           <summary className="cursor-pointer font-semibold underline">Timezones</summary>
           <div className="flex flex-col gap-1 py-2">
-            {getTimezones(parsedDate).map(timezone => (
+            {getTimezones(parsedDate, use24HourFormat).map(timezone => (
               <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
                 <span className="text-lg underline"> {timezone.city}</span>
                 <br />

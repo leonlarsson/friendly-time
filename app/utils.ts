@@ -39,10 +39,14 @@ export const getDiscordTimestamps = (date: Date | null) => ({
   }
 });
 
-export const getTimezones = (date: Date | null) =>
+export const getTimezones = (date: Date | null, use24HourFormat: boolean) =>
   timezones.map(timezone => ({
     city: timezone.city,
-    result: date ? dayjs(date).tz(timezone.code).format("dddd, MMMM D, YYYY HH:mm A z") : null
+    result: date
+      ? dayjs(date)
+          .tz(timezone.code)
+          .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "hh"}:mm ${use24HourFormat ? "" : "A"} z`)
+      : null
   }));
 
 export const getWeekNumber = (date: Date): string => {
