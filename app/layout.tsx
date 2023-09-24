@@ -6,8 +6,23 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Friendly Time",
-  description: "Get various date formats from a human-friendly input."
+  title: "Friendly Time Parser",
+  description: "Get various date formats and timezone info from a human-friendly input.",
+  metadataBase: new URL("https://friendly-time.vercel.app"),
+  openGraph: {
+    title: "Friendly Time Parser",
+    description: "Get various date formats from a human-friendly input.",
+    url: "https://friendly-time.vercel.app",
+    siteName: "Friendly Time Parser",
+    locale: "en-US",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Friendly Time Parser",
+    description: "Get various date formats from a human-friendly input.",
+    creator: "@mozzyfx"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
