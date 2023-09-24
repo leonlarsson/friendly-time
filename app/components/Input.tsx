@@ -77,7 +77,7 @@ export const Input = () => {
             wanasit/chrono
           </a>{" "}
           and was created by{" "}
-          <a className="font-semibold underline" href="https://x.com/mozzyfx" target="_blank">
+          <a className="font-semibold underline" href="https://leonlarsson.com" target="_blank">
             me
           </a>
           .
