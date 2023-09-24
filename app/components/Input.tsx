@@ -4,10 +4,13 @@ import { useState } from "react";
 import { parseDate, strict } from "chrono-node";
 import { getDiscordTimestamps, getWeekNumber } from "../utils";
 
-export default () => {
-  const [input, setInput] = useState("");
+export const Input = () => {
+  const [textInput, setTextInput] = useState(""); // State for text input
+  const [dateInput, setDateInput] = useState(""); // State for datetime-local input
+  const [useDateInput, setUseDateInput] = useState(false); // State for toggling between text input and datetime-local input
+
   const [strictMode, setStrictMode] = useState(false);
-  const parsedDate = strictMode ? strict.parseDate(input) : parseDate(input);
+  const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
   const parsedDateFormats = {
     Local: parsedDate?.toString(),
@@ -22,16 +25,35 @@ export default () => {
     "Timestamp (seconds)": parsedDate ? Math.floor(parsedDate?.getTime() / 1000) : null
   };
 
+  const onTextInput = (e: React.ChangeEvent<HTMLInputElement> | string) => {
+    setTextInput(typeof e === "string" ? e : e.target.value);
+    setDateInput("");
+    setUseDateInput(false);
+  };
+
+  const onDateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTextInput(e.target.value.replace("T", " "));
+    setDateInput(e.target.value.replace("T", " "));
+    setUseDateInput(true);
+  };
+
   return (
     <>
       <div className="mb-3 flex flex-wrap justify-between gap-2">
-        <input className="flex-1 rounded-md border border-black/50 p-2 text-xl text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="text" placeholder="next friday at 6pm" value={input} onChange={e => setInput(e.target.value)} />
-        <input className="rounded-md border border-black/50 p-2 text-xl text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="datetime-local" value={parsedDate?.toISOString().slice(0, 16)} onChange={e => setInput(e.target.value)} />
+        <input
+          className="flex-1 rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
+          type="text"
+          data-current-input={!useDateInput}
+          placeholder="next friday at 6pm"
+          value={textInput}
+          onChange={onTextInput}
+        />
+        <input className="rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="datetime-local" data-current-input={useDateInput} value={dateInput} onChange={onDateInput} />
       </div>
 
       <div className="flex flex-wrap gap-2">
         {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45", "last friday", "in 69 days at 4:20 pm"].map(example => (
-          <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-700" onClick={() => setInput(example)}>
+          <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-700" onClick={() => onTextInput(example)}>
             {example}
           </button>
         ))}
@@ -85,3 +107,5 @@ export default () => {
     </>
   );
 };
+
+export default Input;
