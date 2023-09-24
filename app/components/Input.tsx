@@ -49,7 +49,7 @@ export const Input = () => {
       </div>
 
       <details className="select-none">
-        <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings</summary>
+        <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings & Info</summary>
         <div className="flex flex-col gap-2 py-2">
           <div>
             <label className="flex items-center gap-2">
