@@ -5,6 +5,7 @@ import { parseDate, strict } from "chrono-node";
 import { getDiscordTimestamps, getParsedDateFormats, getTimezones } from "../utils";
 
 export const Input = () => {
+  const [hasRendered, setHasRendered] = useState(false);
   const [textInput, setTextInput] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [useDateInput, setUseDateInput] = useState(true);
@@ -13,7 +14,10 @@ export const Input = () => {
   const [sortTimezonesByTime, setSortTimezonesByTime] = useState(false);
 
   // Set datetime-local input to current date on first render
-  useEffect(() => setDateInput(new Date().toLocaleString().slice(0, 19)), []);
+  useEffect(() => {
+    setDateInput(new Date().toLocaleString().slice(0, 19));
+    setHasRendered(true);
+  }, []);
 
   const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
@@ -34,6 +38,8 @@ export const Input = () => {
     setDateInput(e.target.value.replace("T", " "));
     setUseDateInput(true);
   };
+
+  if (!hasRendered) return null;
 
   return (
     <>
