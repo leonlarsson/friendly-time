@@ -6,7 +6,7 @@ import { getDiscordTimestamps, getParsedDateFormats, getTimezones } from "../uti
 
 export const Input = () => {
   const [textInput, setTextInput] = useState(""); // State for text input
-  const [dateInput, setDateInput] = useState(new Date().toISOString().slice(0, 19)); // State for datetime-local input. Initial state is the current date
+  const [dateInput, setDateInput] = useState(new Date().toLocaleString().slice(0, 19)); // State for datetime-local input. Initial state is the current date
   const [useDateInput, setUseDateInput] = useState(true); // State for toggling between text input and datetime-local input
   const [strictMode, setStrictMode] = useState(false);
   const [use24HourFormat, setUse24HourFormat] = useState(false);
@@ -20,7 +20,7 @@ export const Input = () => {
     setDateInput(
       parseDate(typeof e === "string" ? e : e.target.value)
         ?.toLocaleString()
-        .slice(0, 19) ?? new Date().toISOString().slice(0, 19)
+        .slice(0, 19) ?? new Date().toLocaleString().slice(0, 19)
     );
     setUseDateInput(false);
   };
