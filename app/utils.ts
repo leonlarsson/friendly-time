@@ -23,11 +23,11 @@ export const getParsedDateFormats = (date: Date | null) => ({
 export const getDiscordTimestamps = (date: Date | null) => ({
   "Short Time": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:t>` : null,
-    result: dayjs(date).format("hh:mm A")
+    result: dayjs(date).format("h:mm A")
   },
   "Long Time": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:T>` : null,
-    result: dayjs(date).format("hh:mm:ss A")
+    result: dayjs(date).format("h:mm:ss A")
   },
   "Short Date": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:d>` : null,
@@ -39,11 +39,11 @@ export const getDiscordTimestamps = (date: Date | null) => ({
   },
   "Short Date/Time": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:f>` : null,
-    result: dayjs(date).format("MMMM D, YYYY hh:mm A")
+    result: dayjs(date).format("MMMM D, YYYY h:mm A")
   },
   "Long Date/Time": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:F>` : null,
-    result: dayjs(date).format("dddd, MMMM D, YYYY hh:mm A")
+    result: dayjs(date).format("dddd, MMMM D, YYYY h:mm A")
   },
   "Relative Time": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:R>` : null,
@@ -57,7 +57,7 @@ export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortBy
     result: date
       ? dayjs(date)
           .tz(timezone.code)
-          .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "hh"}:mm ${use24HourFormat ? "" : "A"} z`)
+          .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "h"}:mm ${use24HourFormat ? "" : "A"} z`)
       : null
   }));
 
