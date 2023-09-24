@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { parseDate, strict } from "chrono-node";
-import { getDiscordTimestamps, getTimezones, getWeekNumber } from "../utils";
+import { getDiscordTimestamps, getParsedDateFormats, getTimezones, getWeekNumber } from "../utils";
 
 export const Input = () => {
   const [textInput, setTextInput] = useState(""); // State for text input
@@ -12,18 +12,6 @@ export const Input = () => {
   const [use24HourFormat, setUse24HourFormat] = useState(false);
 
   const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
-
-  const parsedDateFormats = {
-    Local: parsedDate?.toString(),
-    "UTC Date": parsedDate?.toUTCString(),
-    "ISO Date": parsedDate?.toISOString(),
-    "Day of the Month": parsedDate?.getDate(),
-    "Month of the Year": parsedDate ? parsedDate?.getMonth() + 1 : null,
-    Year: parsedDate?.getFullYear(),
-    Week: parsedDate ? getWeekNumber(parsedDate) : null,
-    "Timestamp (milliseconds)": parsedDate?.getTime(),
-    "Timestamp (seconds)": parsedDate ? Math.floor(parsedDate?.getTime() / 1000) : null
-  };
 
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement> | string) => {
     setTextInput(typeof e === "string" ? e : e.target.value);
@@ -95,7 +83,7 @@ export const Input = () => {
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
       <div className="flex flex-col gap-1">
-        {Object.entries(parsedDateFormats).map(([key, value]) => (
+        {Object.entries(getParsedDateFormats(parsedDate)).map(([key, value]) => (
           <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
             {key}: <span className="select-all font-medium dark:font-semibold">{value ?? "Invalid Date"}</span>
           </span>
