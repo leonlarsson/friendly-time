@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { parseDate, strict } from "chrono-node";
-import { getDiscordTimestamps, getParsedDateFormats, getTimezones, getWeekNumber } from "../utils";
+import { getDiscordTimestamps, getParsedDateFormats, getTimezones } from "../utils";
 
 export const Input = () => {
   const [textInput, setTextInput] = useState(""); // State for text input
-  const [dateInput, setDateInput] = useState(""); // State for datetime-local input
-  const [useDateInput, setUseDateInput] = useState(false); // State for toggling between text input and datetime-local input
+  const [dateInput, setDateInput] = useState(new Date().toISOString().slice(0, 19)); // State for datetime-local input. Initial state is the current date
+  const [useDateInput, setUseDateInput] = useState(true); // State for toggling between text input and datetime-local input
   const [strictMode, setStrictMode] = useState(false);
   const [use24HourFormat, setUse24HourFormat] = useState(false);
   const [sortTimezonesByTime, setSortTimezonesByTime] = useState(false);
@@ -15,12 +15,18 @@ export const Input = () => {
   const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement> | string) => {
+    // On text input, set both text input and datetime-local input to the same value (though transformed to a format the datetime-local accepts). Also set useDateInput to false
     setTextInput(typeof e === "string" ? e : e.target.value);
-    setDateInput("");
+    setDateInput(
+      parseDate(typeof e === "string" ? e : e.target.value)
+        ?.toLocaleString()
+        .slice(0, 19) ?? new Date().toISOString().slice(0, 19)
+    );
     setUseDateInput(false);
   };
 
   const onDateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // On datetime-local input, set both text input and datetime-local input to the same value (but remove the T, otherwise parseDate thinks it's UTC). Also set useDateInput to true
     setTextInput(e.target.value.replace("T", " "));
     setDateInput(e.target.value.replace("T", " "));
     setUseDateInput(true);
@@ -43,6 +49,7 @@ export const Input = () => {
         <input
           className="rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
           type="datetime-local"
+          step={1}
           aria-label="A date/time picker that chooses what date to show on the website."
           data-current-input={useDateInput}
           value={dateInput}
@@ -52,7 +59,7 @@ export const Input = () => {
 
       {/* Example buttons */}
       <div className="flex flex-wrap gap-2">
-        {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45", "last friday", "in 69 days at 4:20 pm"].map(example => (
+        {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45:32", "last friday", "in 69 days at 4:20 pm"].map(example => (
           <button
             key={example}
             className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800"
@@ -67,6 +74,10 @@ export const Input = () => {
       {/* Settings & Info */}
       <details className="select-none">
         <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings & Info</summary>
+        <span>
+          The input method with the solid border is the currently active one. Currently using the <span className="underline">{useDateInput ? "date" : "text"}</span> input.
+        </span>
+
         <div className="flex flex-col gap-2 py-2">
           {/* Strict mode */}
           <div>
@@ -114,7 +125,10 @@ export const Input = () => {
       <div className="flex flex-col gap-1">
         {Object.entries(getParsedDateFormats(parsedDate)).map(([key, value]) => (
           <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-            {key}: <span className="select-all font-medium dark:font-semibold">{value ?? "Invalid Date"}</span>
+            {key}:{" "}
+            <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
+              {value ?? "Invalid Date"}
+            </span>
           </span>
         ))}
 
@@ -123,7 +137,11 @@ export const Input = () => {
           <div className="flex flex-col gap-1 py-2">
             {Object.entries(getDiscordTimestamps(parsedDate)).map(([key, value]) => (
               <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-                {key}: <span className="select-all font-medium dark:font-semibold">{value.value ?? "Invalid Date"}</span> = <q>{value.result}</q>
+                {key}:{" "}
+                <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
+                  {value.value ?? "Invalid Date"}
+                </span>{" "}
+                = <q suppressHydrationWarning>{value.result}</q>
               </span>
             ))}
           </div>
@@ -136,7 +154,10 @@ export const Input = () => {
               <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
                 <span className="text-lg underline"> {timezone.city}</span>
                 <br />
-                Local: <span className="select-all font-medium dark:font-semibold">{timezone.result ?? "Invalid Date"}</span>
+                Local:{" "}
+                <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
+                  {timezone.result ?? "Invalid Date"}
+                </span>
               </span>
             ))}
           </div>
