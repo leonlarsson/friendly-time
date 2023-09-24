@@ -85,7 +85,7 @@ export const Input = () => {
 
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         {Object.entries(parsedDateFormats).map(([key, value]) => (
           <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
             {key}: <span className="select-all font-medium dark:font-semibold">{value ?? "Invalid Date"}</span>
@@ -94,7 +94,7 @@ export const Input = () => {
 
         <details>
           <summary className="cursor-pointer font-semibold underline">Discord Timestamps</summary>
-          <div className="flex flex-col gap-2 py-2">
+          <div className="flex flex-col gap-1 py-2">
             {Object.entries(getDiscordTimestamps(parsedDate)).map(([key, value]) => (
               <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
                 {key}: <span className="select-all font-medium dark:font-semibold">{value.value ?? "Invalid Date"}</span> = <q>{value.result}</q>
@@ -105,10 +105,10 @@ export const Input = () => {
 
         <details>
           <summary className="cursor-pointer font-semibold underline">Timezones</summary>
-          <div className="flex flex-col gap-2 py-2">
+          <div className="flex flex-col gap-1 py-2">
             {getTimezones(parsedDate).map(timezone => (
               <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-                <span className="text-lg"> {timezone.city}</span>
+                <span className="text-lg underline"> {timezone.city}</span>
                 <br />
                 Local: <span className="select-all font-medium dark:font-semibold">{timezone.result ?? "Invalid Date"}</span>
               </span>
