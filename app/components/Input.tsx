@@ -108,7 +108,9 @@ export const Input = () => {
           <div className="flex flex-col gap-2 py-2">
             {getTimezones(parsedDate).map(timezone => (
               <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-                {timezone.city}: <span className="select-all font-medium dark:font-semibold">{timezone.result ?? "Invalid Date"}</span>
+                <span className="text-lg"> {timezone.city}</span>
+                <br />
+                Local: <span className="select-all font-medium dark:font-semibold">{timezone.result ?? "Invalid Date"}</span>
               </span>
             ))}
           </div>
