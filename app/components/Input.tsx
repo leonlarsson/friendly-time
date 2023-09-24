@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { parseDate, strict } from "chrono-node";
 import { getDiscordTimestamps, getParsedDateFormats, getTimezones } from "../utils";
 
 export const Input = () => {
-  const [textInput, setTextInput] = useState(""); // State for text input
-  const [dateInput, setDateInput] = useState(new Date().toLocaleString().slice(0, 19)); // State for datetime-local input. Initial state is the current date
-  const [useDateInput, setUseDateInput] = useState(true); // State for toggling between text input and datetime-local input
+  const [textInput, setTextInput] = useState("");
+  const [dateInput, setDateInput] = useState("");
+  const [useDateInput, setUseDateInput] = useState(true);
   const [strictMode, setStrictMode] = useState(false);
   const [use24HourFormat, setUse24HourFormat] = useState(false);
   const [sortTimezonesByTime, setSortTimezonesByTime] = useState(false);
+
+  // Set datetime-local input to current date on first render
+  useEffect(() => setDateInput(new Date().toLocaleString().slice(0, 19)), []);
 
   const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
