@@ -31,7 +31,7 @@ export const getDiscordTimestamps = (date: Date | null) => ({
   },
   "Short Date": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:d>` : null,
-    result: dayjs(date).format("MM/YY/YYYY")
+    result: dayjs(date).format("MM/DD/YYYY")
   },
   "Long Date": {
     value: date ? `<t:${Math.floor(date.getTime() / 1000)}:D>` : null,
