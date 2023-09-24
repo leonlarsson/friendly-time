@@ -28,6 +28,7 @@ export const Input = () => {
 
   return (
     <>
+      {/* Inputs */}
       <div className="mb-3 flex flex-wrap justify-between gap-2">
         <input
           className="flex-1 rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
@@ -40,6 +41,7 @@ export const Input = () => {
         <input className="rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="datetime-local" data-current-input={useDateInput} value={dateInput} onChange={onDateInput} />
       </div>
 
+      {/* Example buttons */}
       <div className="flex flex-wrap gap-2">
         {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45", "last friday", "in 69 days at 4:20 pm"].map(example => (
           <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800" onClick={() => onTextInput(example)}>
@@ -48,29 +50,33 @@ export const Input = () => {
         ))}
       </div>
 
+      {/* Settings & Info */}
       <details className="select-none">
         <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings & Info</summary>
         <div className="flex flex-col gap-2 py-2">
+          {/* Strict mode */}
           <div>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" className="form-checkbox" checked={strictMode} onChange={() => setStrictMode(!strictMode)} />
-              <span>Strict mode</span>
+            <input type="checkbox" className="peer me-1 accent-black dark:accent-white" id="strictMode" checked={strictMode} onChange={() => setStrictMode(!strictMode)} />
+            <label className="opacity-90 peer-checked:opacity-100" htmlFor="strictMode">
+              Strict mode
             </label>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, parse only formal date patterns.</p>
           </div>
 
+          {/* 24-hour format */}
           <div>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" className="form-checkbox" checked={use24HourFormat} onChange={() => setUse24HourFormat(!use24HourFormat)} />
-              <span>Display 24-hour time format</span>
+            <input type="checkbox" className="peer me-1 accent-black dark:accent-white" id="24HourFormat" checked={use24HourFormat} onChange={() => setUse24HourFormat(!use24HourFormat)} />
+            <label className="opacity-90 peer-checked:opacity-100" htmlFor="24HourFormat">
+              Display 24-hour time format
             </label>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, display time using the 24-hour format for the timezones. Otherwise, use 12-hour format.</p>
           </div>
 
+          {/* Sort timezones by time */}
           <div>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" className="form-checkbox" checked={sortTimezonesByTime} onChange={() => setSortTimezonesByTime(!sortTimezonesByTime)} />
-              <span>Sort timezones by time</span>
+            <input type="checkbox" className="peer me-1 accent-black dark:accent-white" id="sortTimezonesByTime" checked={sortTimezonesByTime} onChange={() => setSortTimezonesByTime(!sortTimezonesByTime)} />
+            <label className="opacity-90 peer-checked:opacity-100" htmlFor="sortTimezonesByTime">
+              Sort timezones by time
             </label>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">If enabled, sort list of timezones by their time difference. Otherwise, sort alphabetically.</p>
           </div>
