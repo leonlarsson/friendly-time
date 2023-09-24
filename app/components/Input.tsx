@@ -109,11 +109,11 @@ export const Input = () => {
 
         <span>
           This app uses{" "}
-          <a className="font-semibold underline" href="https://github.com/wanasit/chrono" target="_blank">
+          <a className="font-semibold hover:underline" href="https://github.com/wanasit/chrono" target="_blank">
             wanasit/chrono
           </a>{" "}
           and was created by{" "}
-          <a className="font-semibold underline" href="https://leonlarsson.com" target="_blank">
+          <a className="font-semibold hover:underline" href="https://leonlarsson.com" target="_blank">
             me
           </a>
           .
