@@ -33,18 +33,32 @@ export const Input = () => {
         <input
           className="flex-1 rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
           type="text"
+          aria-label="A text input field that chooses what date to show on the website."
           data-current-input={!useDateInput}
           placeholder="next friday at 6pm"
           value={textInput}
           onChange={onTextInput}
         />
-        <input className="rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="datetime-local" data-current-input={useDateInput} value={dateInput} onChange={onDateInput} />
+
+        <input
+          className="rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
+          type="datetime-local"
+          aria-label="A date/time picker that chooses what date to show on the website."
+          data-current-input={useDateInput}
+          value={dateInput}
+          onChange={onDateInput}
+        />
       </div>
 
       {/* Example buttons */}
       <div className="flex flex-wrap gap-2">
         {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45", "last friday", "in 69 days at 4:20 pm"].map(example => (
-          <button key={example} className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800" onClick={() => onTextInput(example)}>
+          <button
+            key={example}
+            className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800"
+            aria-label="A button that populates the website with an exmaple date."
+            onClick={() => onTextInput(example)}
+          >
             {example}
           </button>
         ))}
