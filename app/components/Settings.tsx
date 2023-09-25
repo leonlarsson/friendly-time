@@ -68,8 +68,6 @@ export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, use
         </span>
       </span>
 
-      <span></span>
-
       <div className="flex flex-col gap-2 py-2">
         {settings.map(({ name, description, value, setValue }) => (
           <div key={name}>
@@ -93,6 +91,22 @@ export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, use
         </a>
         .
       </span>
+
+      <details className="mt-2">
+        <summary className="cursor-pointer font-semibold">Issues?</summary>
+        <div>
+          <span>Issues? Click this button to reset settings and refresh: </span>
+          <button
+            className="rounded bg-red-600 px-2 text-white"
+            onClick={() => {
+              localStorage.clear();
+              window.location.reload();
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      </details>
     </details>
   );
 };
