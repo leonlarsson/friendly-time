@@ -57,7 +57,7 @@ export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortBy
     result: date
       ? dayjs(date)
           .tz(timezone.code)
-          .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "h"}:mm ${use24HourFormat ? "" : "A"} z`)
+          .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "h"}:mm ${use24HourFormat ? "" : "A"} z (UTC Z)`)
       : null
   }));
 
