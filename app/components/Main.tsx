@@ -25,8 +25,27 @@ export const Main = ({ input }: { input?: string }) => {
     setHasRendered(true);
   }, []);
 
-  const parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
+  let parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
 
+  // If parsedDate is null, try to parse the input as a timestamp in milliseconds or seconds
+  if (!parsedDate) {
+    // Parse the input as an integer
+    const timestamp = parseInt(textInput);
+
+    // If the timestamp is a valid number, try to parse it as a timestamp in milliseconds or seconds
+    if (!isNaN(timestamp)) {
+      // Check if the timestamp is in seconds (10 digits) and within a valid range
+      if (timestamp.toString().length === 10 && timestamp >= 0 && timestamp <= 2147483647) {
+        // Create a Date object by converting seconds to milliseconds
+        parsedDate = new Date(timestamp * 1000);
+      } else if (timestamp.toString().length <= 13 && timestamp >= 0) {
+        // Create a Date object directly from the timestamp (milliseconds)
+        parsedDate = new Date(timestamp);
+      }
+    }
+  }
+
+  // TODO: Populate date input if input timestamp is valid
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement> | string) => {
     // On text input, set both text input and datetime-local input to the same value (though transformed to a format the datetime-local accepts). Also set useDateInput to false
     setTextInput(typeof e === "string" ? e : e.target.value);
