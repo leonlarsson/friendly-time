@@ -51,15 +51,17 @@ export const getDiscordTimestamps = (date: Date | null) => ({
   }
 });
 
-export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortByTime: boolean) =>
-  (sortByTime ? timezones : [...timezones].sort((a, b) => a.city.toLowerCase().localeCompare(b.city.toLowerCase()))).map(timezone => ({
-    city: timezone.city,
-    result: date
-      ? dayjs(date)
-          .tz(timezone.code)
-          .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "h"}:mm ${use24HourFormat ? "" : "A"} z (UTC Z)`)
-      : null
-  }));
+export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortByTime: boolean, filter: string) =>
+  (sortByTime ? timezones : [...timezones].sort((a, b) => a.city.toLowerCase().localeCompare(b.city.toLowerCase())))
+    .filter(x => [x.city, x.code].some(y => y.toLowerCase().includes(filter.toLowerCase())))
+    .map(timezone => ({
+      city: timezone.city,
+      result: date
+        ? dayjs(date)
+            .tz(timezone.code)
+            .format(`dddd, MMMM D, YYYY ${use24HourFormat ? "HH" : "h"}:mm ${use24HourFormat ? "" : "A"} z (UTC Z)`)
+        : null
+    }));
 
 export const getWeekNumber = (date: Date): string => {
   const d: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
