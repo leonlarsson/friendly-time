@@ -53,7 +53,7 @@ export const getDiscordTimestamps = (date: Date | null) => ({
 
 export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortByTime: boolean, filter: string) =>
   (sortByTime ? timezones : [...timezones].sort((a, b) => a.city.toLowerCase().localeCompare(b.city.toLowerCase())))
-    .filter(x => [x.city, x.code].some(y => y.toLowerCase().includes(filter.toLowerCase())))
+    .filter(x => [x.city, x.code, x.country].some(y => y.toLowerCase().includes(filter.toLowerCase())))
     .map(timezone => ({
       city: timezone.city,
       result: date
@@ -73,28 +73,32 @@ export const getWeekNumber = (date: Date): string => {
 
 // Timezones sorted by UTC offset
 const timezones = [
-  { city: "Auckland", code: "Pacific/Auckland" },
-  { city: "Sydney", code: "Australia/Sydney" },
-  { city: "Tokyo", code: "Asia/Tokyo" },
-  { city: "Singapore", code: "Asia/Singapore" },
-  { city: "Hong Kong", code: "Asia/Hong_Kong" },
-  { city: "Seoul", code: "Asia/Seoul" },
-  { city: "Dubai", code: "Asia/Dubai" },
-  { city: "Moscow", code: "Europe/Moscow" },
-  { city: "Istanbul", code: "Europe/Istanbul" },
-  { city: "Berlin", code: "Europe/Berlin" },
-  { city: "Stockholm", code: "Europe/Stockholm" },
-  { city: "Paris", code: "Europe/Paris" },
-  { city: "Amsterdam", code: "Europe/Amsterdam" },
-  { city: "Brussels", code: "Europe/Brussels" },
-  { city: "Rome", code: "Europe/Rome" },
-  { city: "Madrid", code: "Europe/Madrid" },
-  { city: "London", code: "Europe/London" },
-  { city: "Cairo", code: "Africa/Cairo" },
-  { city: "Rio de Janeiro", code: "America/Sao_Paulo" },
-  { city: "New York", code: "America/New_York" },
-  { city: "Chicago", code: "America/Chicago" },
-  { city: "Mexico City", code: "America/Mexico_City" },
-  { city: "Los Angeles", code: "America/Los_Angeles" },
-  { city: "Honolulu", code: "Pacific/Honolulu" }
+  { city: "Apia", code: "Pacific/Apia", country: "Samoa" },
+  { city: "Auckland", code: "Pacific/Auckland", country: "New Zealand" },
+  { city: "Sydney", code: "Australia/Sydney", country: "Australia" },
+  { city: "Tokyo", code: "Asia/Tokyo", country: "Japan" },
+  { city: "Seoul", code: "Asia/Seoul", country: "South Korea" },
+  { city: "Singapore", code: "Asia/Singapore", country: "Singapore" },
+  { city: "Hong Kong", code: "Asia/Hong_Kong", country: "Hong Kong" },
+  { city: "Beijing", code: "Asia/Shanghai", country: "China" },
+  { city: "Dubai", code: "Asia/Dubai", country: "United Arab Emirates" },
+  { city: "Moscow", code: "Europe/Moscow", country: "Russia" },
+  { city: "Istanbul", code: "Europe/Istanbul", country: "Turkey" },
+  { city: "Kyiv", code: "Europe/Kiev", country: "Ukraine" },
+  { city: "Cairo", code: "Africa/Cairo", country: "Egypt" },
+  { city: "Nairobi", code: "Africa/Nairobi", country: "Kenya" },
+  { city: "Berlin", code: "Europe/Berlin", country: "Germany" },
+  { city: "Stockholm", code: "Europe/Stockholm", country: "Sweden" },
+  { city: "Paris", code: "Europe/Paris", country: "France" },
+  { city: "Amsterdam", code: "Europe/Amsterdam", country: "Netherlands" },
+  { city: "Brussels", code: "Europe/Brussels", country: "Belgium" },
+  { city: "Rome", code: "Europe/Rome", country: "Italy" },
+  { city: "Madrid", code: "Europe/Madrid", country: "Spain" },
+  { city: "London", code: "Europe/London", country: "United Kingdom" },
+  { city: "Rio de Janeiro", code: "America/Sao_Paulo", country: "Brazil" },
+  { city: "New York", code: "America/New_York", country: "United States" },
+  { city: "Chicago", code: "America/Chicago", country: "United States" },
+  { city: "Mexico City", code: "America/Mexico_City", country: "Mexico" },
+  { city: "Los Angeles", code: "America/Los_Angeles", country: "United States" },
+  { city: "Honolulu", code: "Pacific/Honolulu", country: "United States" }
 ];
