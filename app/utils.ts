@@ -11,13 +11,13 @@ dayjs.extend(advancedFormat);
 export const getParsedDateFormats = (date: Date | null) => ({
   Local: date?.toString(),
   "UTC Date": date?.toUTCString(),
-  "ISO Date": date?.toISOString(),
-  "Day of the Month": date?.getDate(),
-  "Month of the Year": date ? date?.getMonth() + 1 : null,
-  Year: date?.getFullYear(),
+  "ISO Date": date?.toISOString().toString(),
+  "Day of the Month": date?.getDate().toString(),
+  "Month of the Year": date ? (date?.getMonth() + 1).toString() : null,
+  Year: date?.getFullYear().toString(),
   Week: date ? getWeekNumber(date) : null,
-  "Timestamp (milliseconds)": date?.getTime(),
-  "Timestamp (seconds)": date ? Math.floor(date?.getTime() / 1000) : null
+  "Timestamp (milliseconds)": date?.getTime().toString(),
+  "Timestamp (seconds)": date ? Math.floor(date?.getTime() / 1000).toString() : null
 });
 
 export const getDiscordTimestamps = (date: Date | null) => ({
