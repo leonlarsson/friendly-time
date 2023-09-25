@@ -41,10 +41,24 @@ export const Main = ({ input }: { input?: string }) => {
     }
   }
 
-  // TODO: Populate date input if input timestamp is valid
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement> | string) => {
     // On text input, set both text input and datetime-local input to the same value (though transformed to a format the datetime-local accepts). Also set useDateInput to false
     setTextInput(typeof e === "string" ? e : e.target.value);
+
+    // EXPERIMENTAL
+    // If the input is a valid number, set the datetime-local input to the parsed timestamp
+    const timestamp = parseInt(typeof e === "string" ? e : e.target.value);
+    if (!isNaN(timestamp)) {
+      const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
+      if (parsedDateTemp.toString() !== "Invalid Date") {
+        setDateInput(parsedDateTemp.toLocaleString().slice(0, 19));
+        setUseDateInput(true);
+        return;
+      }
+    }
+    // END EXPERIMENTAL
+
+    // If the input is not a valid number, set the datetime-local input to the parsed date
     setDateInput(
       parseDate(typeof e === "string" ? e : e.target.value)
         ?.toLocaleString()
