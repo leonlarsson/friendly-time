@@ -22,7 +22,7 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
       <summary className="cursor-pointer font-semibold underline">Timezones</summary>
       <div className="flex flex-col gap-2 py-2">
         {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter).map(timezone => (
-          <span key={timezone.city} className="group rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
+          <span key={timezone.city} className="group border-l-2 border-transparent p-px px-2 hover:border-l-black hover:bg-neutral-200 dark:hover:border-l-white dark:hover:bg-neutral-900">
             <span className="text-lg underline">
               {" "}
               {timezone.city}, {timezone.country}
