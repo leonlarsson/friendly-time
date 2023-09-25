@@ -63,7 +63,7 @@ export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, use
         The input method with the solid border is the currently active one. Currently using the <span className="underline">{useDateInput ? "date" : "text"}</span> input.
         <br />
         Did you know you can easily copy the dates by clicking on then?{" "}
-        <span className="cursor-copy select-all" onClick={() => navigator.clipboard.writeText("Try it out!")}>
+        <span className="cursor-copy select-all" title="Click to copy" onClick={() => navigator.clipboard.writeText("Try it out!")}>
           Try it out!
         </span>
       </span>

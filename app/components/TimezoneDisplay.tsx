@@ -69,6 +69,7 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
                   suppressHydrationWarning
                   data-copyable={typeof timezone.result === "string"}
                   className="font-medium data-[copyable=true]:cursor-copy data-[copyable=true]:select-all dark:font-semibold"
+                  title="Click to copy"
                   onClick={e => {
                     e.stopPropagation();
                     typeof timezone.result === "string" && navigator.clipboard.writeText(timezone.result);
