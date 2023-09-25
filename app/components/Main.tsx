@@ -7,14 +7,14 @@ import BasicInfoDisplay from "./BasicInfoDisplay";
 import DiscordTimestampsDisplay from "./DiscordTimestampsDisplay";
 import TimezoneDisplay from "./TimezoneDisplay";
 
-export const Main = () => {
+export const Main = ({ input }: { input?: string }) => {
   let settings;
   if (typeof localStorage !== "undefined") settings = JSON.parse(localStorage.getItem("friendlyTimeSettings") ?? "{}");
 
   const [hasRendered, setHasRendered] = useState(false);
-  const [textInput, setTextInput] = useState("");
+  const [textInput, setTextInput] = useState(input ?? "");
   const [dateInput, setDateInput] = useState("");
-  const [useDateInput, setUseDateInput] = useState(true);
+  const [useDateInput, setUseDateInput] = useState(input ? false : true);
   const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
   const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
   const [sortTimezonesByTime, setSortTimezonesByTime] = useState(settings?.sortTimezonesByTime ?? false);
