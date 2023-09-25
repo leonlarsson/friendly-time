@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 
 type Props = {
+  timestampParseMilliseconds: boolean;
+  setTimestampParseMilliseconds: (value: boolean) => void;
   useDateInput: boolean;
   strictMode: boolean;
   setStrictMode: (value: boolean) => void;
@@ -10,8 +12,14 @@ type Props = {
   setSortTimezonesByTime: (value: boolean) => void;
 };
 
-export default ({ useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
+export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
   const settings = [
+    {
+      name: "Parse milliseconds timestamps",
+      description: `If enabled, parse timestamps in milliseconds. Otherwise, parse timestamps in seconds. Currently parsing timestamps in ${timestampParseMilliseconds === true ? "milliseconds" : "seconds"}.`,
+      value: timestampParseMilliseconds,
+      setValue: setTimestampParseMilliseconds
+    },
     {
       name: "Strict mode",
       description: "If enabled, parse only formal date patterns.",

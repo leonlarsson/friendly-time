@@ -15,6 +15,7 @@ export const Main = ({ input }: { input?: string }) => {
   const [textInput, setTextInput] = useState(input ?? "");
   const [dateInput, setDateInput] = useState("");
   const [useDateInput, setUseDateInput] = useState(input ? false : true);
+  const [timestampParseMilliseconds, setTimestampParseMilliseconds] = useState<boolean>(settings?.timestampParseMilliseconds ?? false);
   const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
   const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
   const [sortTimezonesByTime, setSortTimezonesByTime] = useState(settings?.sortTimezonesByTime ?? false);
@@ -32,16 +33,11 @@ export const Main = ({ input }: { input?: string }) => {
     // Parse the input as an integer
     const timestamp = parseInt(textInput);
 
-    // If the timestamp is a valid number, try to parse it as a timestamp in milliseconds or seconds
-    if (!isNaN(timestamp)) {
-      // Check if the timestamp is in seconds (10 digits) and within a valid range
-      if (timestamp.toString().length === 10 && timestamp >= 0 && timestamp <= 2147483647) {
-        // Create a Date object by converting seconds to milliseconds
-        parsedDate = new Date(timestamp * 1000);
-      } else if (timestamp.toString().length <= 13 && timestamp >= 0) {
-        // Create a Date object directly from the timestamp (milliseconds)
-        parsedDate = new Date(timestamp);
-      }
+    // Check if the timestamp is a valid number and doesn't exceed JavaScript's maximum safe integer
+    if (!isNaN(timestamp) && Math.abs(timestamp) <= Number.MAX_SAFE_INTEGER) {
+      // Create a Date object based on the parsed timestamp
+      const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
+      if (parsedDateTemp.toString() !== "Invalid Date") parsedDate = parsedDateTemp;
     }
   }
 
@@ -108,7 +104,17 @@ export const Main = ({ input }: { input?: string }) => {
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
       {/* Settings & Info */}
-      <Settings useDateInput={useDateInput} strictMode={strictMode} setStrictMode={setStrictMode} use24HourFormat={use24HourFormat} setUse24HourFormat={setUse24HourFormat} sortTimezonesByTime={sortTimezonesByTime} setSortTimezonesByTime={setSortTimezonesByTime} />
+      <Settings
+        timestampParseMilliseconds={timestampParseMilliseconds}
+        setTimestampParseMilliseconds={setTimestampParseMilliseconds}
+        useDateInput={useDateInput}
+        strictMode={strictMode}
+        setStrictMode={setStrictMode}
+        use24HourFormat={use24HourFormat}
+        setUse24HourFormat={setUse24HourFormat}
+        sortTimezonesByTime={sortTimezonesByTime}
+        setSortTimezonesByTime={setSortTimezonesByTime}
+      />
 
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
