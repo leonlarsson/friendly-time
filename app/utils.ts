@@ -52,7 +52,7 @@ export const getDiscordTimestamps = (date: Date | null) => ({
 });
 
 export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortByTime: boolean) =>
-  (sortByTime ? timezonesSortedByTime : timezones).map(timezone => ({
+  (sortByTime ? timezones : [...timezones].sort((a, b) => a.city.toLowerCase().localeCompare(b.city.toLowerCase()))).map(timezone => ({
     city: timezone.city,
     result: date
       ? dayjs(date)
@@ -69,36 +69,8 @@ export const getWeekNumber = (date: Date): string => {
   return weekNumber.toString();
 };
 
+// Timezones sorted by UTC offset
 const timezones = [
-  { city: "Amsterdam", code: "Europe/Amsterdam" },
-  { city: "Auckland", code: "Pacific/Auckland" },
-  { city: "Berlin", code: "Europe/Berlin" },
-  { city: "Brussels", code: "Europe/Brussels" },
-  { city: "Cairo", code: "Africa/Cairo" },
-  { city: "Chicago", code: "America/Chicago" },
-  { city: "Denver", code: "America/Denver" },
-  { city: "Dubai", code: "Asia/Dubai" },
-  { city: "Hong Kong", code: "Asia/Hong_Kong" },
-  { city: "Honolulu", code: "Pacific/Honolulu" },
-  { city: "Istanbul", code: "Europe/Istanbul" },
-  { city: "London", code: "Europe/London" },
-  { city: "Los Angeles", code: "America/Los_Angeles" },
-  { city: "Madrid", code: "Europe/Madrid" },
-  { city: "Mexico City", code: "America/Mexico_City" },
-  { city: "Moscow", code: "Europe/Moscow" },
-  { city: "New York", code: "America/New_York" },
-  { city: "Paris", code: "Europe/Paris" },
-  { city: "Rio de Janeiro", code: "America/Sao_Paulo" },
-  { city: "Rome", code: "Europe/Rome" },
-  { city: "Seoul", code: "Asia/Seoul" },
-  { city: "Singapore", code: "Asia/Singapore" },
-  { city: "Stockholm", code: "Europe/Stockholm" },
-  { city: "Sydney", code: "Australia/Sydney" },
-  { city: "Tokyo", code: "Asia/Tokyo" }
-];
-
-const timezonesSortedByTime = [
-  { city: "Honolulu", code: "Pacific/Honolulu" },
   { city: "Auckland", code: "Pacific/Auckland" },
   { city: "Sydney", code: "Australia/Sydney" },
   { city: "Tokyo", code: "Asia/Tokyo" },
@@ -121,5 +93,6 @@ const timezonesSortedByTime = [
   { city: "New York", code: "America/New_York" },
   { city: "Chicago", code: "America/Chicago" },
   { city: "Mexico City", code: "America/Mexico_City" },
-  { city: "Los Angeles", code: "America/Los_Angeles" }
+  { city: "Los Angeles", code: "America/Los_Angeles" },
+  { city: "Honolulu", code: "Pacific/Honolulu" }
 ];
