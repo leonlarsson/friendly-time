@@ -7,14 +7,17 @@ import BasicInfoDisplay from "./BasicInfoDisplay";
 import DiscordTimestampsDisplay from "./DiscordTimestampsDisplay";
 import TimezoneDisplay from "./TimezoneDisplay";
 
-export const Input = () => {
+export const Main = () => {
+  let settings;
+  if (typeof localStorage !== "undefined") settings = JSON.parse(localStorage.getItem("friendlyTimeSettings") ?? "{}");
+
   const [hasRendered, setHasRendered] = useState(false);
   const [textInput, setTextInput] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [useDateInput, setUseDateInput] = useState(true);
-  const [strictMode, setStrictMode] = useState(false);
-  const [use24HourFormat, setUse24HourFormat] = useState(false);
-  const [sortTimezonesByTime, setSortTimezonesByTime] = useState(false);
+  const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
+  const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
+  const [sortTimezonesByTime, setSortTimezonesByTime] = useState(settings?.sortTimezonesByTime ?? false);
 
   // Set datetime-local input to current date on first render
   useEffect(() => {
@@ -101,4 +104,4 @@ export const Input = () => {
   );
 };
 
-export default Input;
+export default Main;

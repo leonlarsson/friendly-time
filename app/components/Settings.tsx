@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 type Props = {
   useDateInput: boolean;
   strictMode: boolean;
@@ -29,6 +31,21 @@ export default ({ useDateInput, strictMode, setStrictMode, use24HourFormat, setU
       setValue: setSortTimezonesByTime
     }
   ];
+
+  // Save settings to a single localStorage object
+  useEffect(
+    () => {
+      localStorage.setItem(
+        "friendlyTimeSettings",
+        JSON.stringify({
+          strictMode,
+          use24HourFormat,
+          sortTimezonesByTime
+        })
+      );
+    },
+    settings.map(({ value }) => value)
+  );
 
   return (
     <details className="select-none">
