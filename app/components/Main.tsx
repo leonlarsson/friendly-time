@@ -34,7 +34,7 @@ export const Main = ({ input }: { input?: string }) => {
     const timestamp = parseInt(textInput);
 
     // Check if the timestamp is a valid number and doesn't exceed JavaScript's maximum safe integer
-    if (!isNaN(timestamp) && Math.abs(timestamp) <= Number.MAX_SAFE_INTEGER) {
+    if (!isNaN(timestamp)) {
       // Create a Date object based on the parsed timestamp
       const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
       if (parsedDateTemp.toString() !== "Invalid Date") parsedDate = parsedDateTemp;
