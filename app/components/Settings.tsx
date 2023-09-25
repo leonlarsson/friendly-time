@@ -15,8 +15,8 @@ type Props = {
 export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
   const settings = [
     {
-      name: "Parse milliseconds timestamps",
-      description: `If enabled, parse timestamps in milliseconds. Otherwise, parse timestamps in seconds. Currently parsing timestamps in ${timestampParseMilliseconds === true ? "milliseconds" : "seconds"}.`,
+      name: "Parse timestamps as milliseconds",
+      description: `If enabled, parse timestamps as milliseconds instead of seconds. Currently parsing timestamps in ${timestampParseMilliseconds === true ? "milliseconds" : "seconds"}.`,
       value: timestampParseMilliseconds,
       setValue: setTimestampParseMilliseconds
     },
@@ -46,6 +46,7 @@ export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, use
       localStorage.setItem(
         "friendlyTimeSettings",
         JSON.stringify({
+          timestampParseMilliseconds,
           strictMode,
           use24HourFormat,
           sortTimezonesByTime
