@@ -52,7 +52,6 @@ export const Main = ({ input }: { input?: string }) => {
       const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
       if (parsedDateTemp.toString() !== "Invalid Date") {
         setDateInput(parsedDateTemp.toLocaleString().slice(0, 19));
-        setUseDateInput(true);
         return;
       }
     }
@@ -64,6 +63,7 @@ export const Main = ({ input }: { input?: string }) => {
         ?.toLocaleString()
         .slice(0, 19) ?? new Date().toLocaleString().slice(0, 19)
     );
+
     setUseDateInput(false);
   };
 
