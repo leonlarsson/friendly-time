@@ -8,11 +8,17 @@ type Props = {
 };
 
 export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => {
-  const [filter, setFilter] = useState("");
+  const filterParam = localStorage.getItem("timezoneFilter");
+  const [filter, setFilter] = useState<string>(filterParam ?? "");
+
+  const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value);
+    localStorage.setItem("timezoneFilter", e.target.value);
+  };
 
   return (
     <details>
-      <input className="mt-2 rounded border border-black/50 p-1 text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="text" aria-label="A text input field to filter the timezones." placeholder="Filter cities" value={filter} onChange={e => setFilter(e.target.value)} />
+      <input className="mt-2 rounded border border-black/50 p-1 text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="text" aria-label="A text input field to filter the timezones." placeholder="Filter cities" value={filter} onChange={onFilterChange} />
       <summary className="cursor-pointer font-semibold underline">Timezones</summary>
       <div className="flex flex-col gap-1 py-2">
         {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter).map(timezone => (
