@@ -61,7 +61,14 @@ export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, use
       <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings & Info</summary>
       <span>
         The input method with the solid border is the currently active one. Currently using the <span className="underline">{useDateInput ? "date" : "text"}</span> input.
+        <br />
+        Did you know you can easily copy the dates by clicking on then?{" "}
+        <span className="cursor-copy select-all" onClick={() => navigator.clipboard.writeText("Try it out!")}>
+          Try it out!
+        </span>
       </span>
+
+      <span></span>
 
       <div className="flex flex-col gap-2 py-2">
         {settings.map(({ name, description, value, setValue }) => (

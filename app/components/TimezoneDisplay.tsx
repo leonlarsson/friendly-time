@@ -30,7 +30,12 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
             <span className="hidden text-sm text-neutral-500 group-hover:inline dark:text-neutral-400">{timezone.code}</span>
             <br />
             Local:{" "}
-            <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
+            <span
+              suppressHydrationWarning
+              data-copyable={typeof timezone.result === "string"}
+              className="font-medium data-[copyable=true]:cursor-copy data-[copyable=true]:select-all dark:font-semibold"
+              onClick={() => typeof timezone.result === "string" && navigator.clipboard.writeText(timezone.result)}
+            >
               {timezone.result ?? "Invalid Date"}
             </span>
           </span>
