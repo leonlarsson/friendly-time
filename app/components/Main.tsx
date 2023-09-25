@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { parseDate, strict } from "chrono-node";
-import { getDiscordTimestamps, getParsedDateFormats, getTimezones } from "../utils";
+import BasicInfoDisplay from "./BasicInfoDisplay";
+import DiscordTimestampsDisplay from "./DiscordTimestampsDisplay";
+import TimezoneDisplay from "./TimezoneDisplay";
 
 export const Input = () => {
   const [hasRendered, setHasRendered] = useState(false);
@@ -80,6 +82,8 @@ export const Input = () => {
         ))}
       </div>
 
+      <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
+
       {/* Settings & Info */}
       <details className="select-none">
         <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings & Info</summary>
@@ -132,45 +136,11 @@ export const Input = () => {
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
       <div className="flex flex-col gap-1">
-        {Object.entries(getParsedDateFormats(parsedDate)).map(([key, value]) => (
-          <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-            {key}:{" "}
-            <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
-              {value ?? "Invalid Date"}
-            </span>
-          </span>
-        ))}
+        <BasicInfoDisplay parsedDate={parsedDate} />
 
-        <details>
-          <summary className="cursor-pointer font-semibold underline">Discord Timestamps</summary>
-          <div className="flex flex-col gap-1 py-2">
-            {Object.entries(getDiscordTimestamps(parsedDate)).map(([key, value]) => (
-              <span key={key} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-                {key}:{" "}
-                <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
-                  {value.value ?? "Invalid Date"}
-                </span>{" "}
-                = <q suppressHydrationWarning>{value.result}</q>
-              </span>
-            ))}
-          </div>
-        </details>
+        <DiscordTimestampsDisplay parsedDate={parsedDate} />
 
-        <details>
-          <summary className="cursor-pointer font-semibold underline">Timezones</summary>
-          <div className="flex flex-col gap-1 py-2">
-            {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime).map(timezone => (
-              <span key={timezone.city} className="rounded p-px px-2 hover:bg-neutral-200 dark:hover:bg-neutral-900">
-                <span className="text-lg underline"> {timezone.city}</span>
-                <br />
-                Local:{" "}
-                <span suppressHydrationWarning className="select-all font-medium dark:font-semibold">
-                  {timezone.result ?? "Invalid Date"}
-                </span>
-              </span>
-            ))}
-          </div>
-        </details>
+        <TimezoneDisplay parsedDate={parsedDate} use24HourFormat={use24HourFormat} sortTimezonesByTime={sortTimezonesByTime} />
       </div>
     </>
   );
