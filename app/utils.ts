@@ -56,6 +56,8 @@ export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortBy
     .filter(x => [x.city, x.code, x.country].some(y => y.toLowerCase().includes(filter.toLowerCase())))
     .map(timezone => ({
       city: timezone.city,
+      country: timezone.country,
+      code: timezone.code,
       result: date
         ? dayjs(date)
             .tz(timezone.code)
