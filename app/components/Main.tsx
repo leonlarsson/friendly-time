@@ -6,6 +6,7 @@ import Settings from "./Settings";
 import BasicInfoDisplay from "./BasicInfoDisplay";
 import DiscordTimestampsDisplay from "./DiscordTimestampsDisplay";
 import TimezoneDisplay from "./TimezoneDisplay";
+import { buildDateTimeInputFormat } from "../utils";
 
 export const Main = ({ input }: { input?: string }) => {
   let settings;
@@ -22,7 +23,7 @@ export const Main = ({ input }: { input?: string }) => {
 
   // Set datetime-local input to current date on first render
   useEffect(() => {
-    setDateInput(new Date().toLocaleString().slice(0, 19));
+    setDateInput(buildDateTimeInputFormat());
     setHasRendered(true);
   }, []);
 
@@ -51,7 +52,7 @@ export const Main = ({ input }: { input?: string }) => {
     if (!isNaN(timestamp)) {
       const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
       if (parsedDateTemp.toString() !== "Invalid Date") {
-        setDateInput(parsedDateTemp.toLocaleString().slice(0, 19));
+        setDateInput(buildDateTimeInputFormat(parsedDateTemp));
         setUseDateInput(false);
         return;
       }
@@ -59,11 +60,9 @@ export const Main = ({ input }: { input?: string }) => {
     // END EXPERIMENTAL
 
     // If the input is not a valid number, set the datetime-local input to the parsed date
-    setDateInput(
-      parseDate(typeof e === "string" ? e : e.target.value)
-        ?.toLocaleString()
-        .slice(0, 19) ?? new Date().toLocaleString().slice(0, 19)
-    );
+    // buildDateTimeInputFormat() builds the string that the datetime-local input accepts.
+    // If no date is passed (if parseDate fails), it defaults to the current date
+    setDateInput(buildDateTimeInputFormat(parseDate(typeof e === "string" ? e : e.target.value)));
 
     setUseDateInput(false);
   };

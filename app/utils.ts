@@ -74,3 +74,9 @@ export const getWeekNumber = (date: Date): string => {
   const weekNumber: number = Math.ceil(((d.valueOf() - yearStart.valueOf()) / 86400000 + 1) / 7);
   return weekNumber.toString();
 };
+
+export const buildDateTimeInputFormat = (date?: Date): string => {
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (!date) date = new Date();
+  return date.toLocaleString("sv-SE", { timeZone: userTimezone }).slice(0, 19).replace("T", " ");
+};
