@@ -46,14 +46,16 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
           .filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) : timezone.code))
           .map(timezone => {
             const isFavorite = favoriteTimezones.includes(`${timezone.city}-${timezone.code}`);
+            const isUsersTimezone = timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone;
 
             return (
               <button
                 key={timezone.city}
                 data-favorite={isFavorite}
-                className="group border-l-2 border-transparent p-px px-2 text-left hover:border-l-black hover:bg-neutral-200 dark:hover:border-l-white dark:hover:bg-neutral-900"
+                data-users-timezone={isUsersTimezone}
+                className="group border-l-2 border-transparent p-px px-2 text-left hover:border-l-black hover:bg-neutral-200 data-[users-timezone=true]:border-l-4 data-[users-timezone=true]:border-black dark:hover:border-l-white dark:hover:bg-neutral-900 dark:data-[users-timezone=true]:border-white"
                 title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                onClick={e => {
+                onClick={() => {
                   if (isFavorite) return removeFavoriteTimezone(`${timezone.city}-${timezone.code}`);
                   return addFavoriteTimezone(`${timezone.city}-${timezone.code}`);
                 }}
