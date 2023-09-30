@@ -43,7 +43,7 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
       <summary className="cursor-pointer font-semibold underline">Timezones</summary>
       <div className="flex flex-col gap-2 py-2">
         {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter)
-          .filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) : timezone.code))
+          .filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) || timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone : timezone.code))
           .map(timezone => {
             const isFavorite = favoriteTimezones.includes(`${timezone.city}-${timezone.code}`);
             const isUsersTimezone = timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone;
