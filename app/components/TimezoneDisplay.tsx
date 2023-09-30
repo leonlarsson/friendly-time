@@ -36,12 +36,14 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
       <input className="mt-2 rounded border border-black/50 p-1 text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white" type="text" aria-label="A text input field to filter the timezones." placeholder="Filter cities" value={filter} onChange={onFilterChange} />
       <br />
       {/* Show only favorites */}
-      <input type="checkbox" className="peer me-1 accent-black dark:accent-white" id="showFavorites" checked={showOnlyFavorited} onChange={() => setShowOnlyFavroted(!showOnlyFavorited)} />
-      <label className="opacity-90 peer-checked:opacity-100" htmlFor="showFavorites">
-        Show only favorites (click to toggle favorites)
-      </label>
+      <div className="mt-1">
+        <input type="checkbox" className="peer me-1 accent-black dark:accent-white" id="showFavorites" checked={showOnlyFavorited} onChange={() => setShowOnlyFavroted(!showOnlyFavorited)} />
+        <label className="opacity-90 peer-checked:opacity-100" htmlFor="showFavorites">
+          Show only favorites (click to toggle favorites)
+        </label>
+      </div>
 
-      <summary className="cursor-pointer font-semibold underline">Timezones</summary>
+      <summary className="cursor-pointer select-none font-semibold underline">Timezones</summary>
       <div className="flex flex-col py-2">
         {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter)
           .filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) || timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone : timezone.code))

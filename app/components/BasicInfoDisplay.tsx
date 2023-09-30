@@ -6,9 +6,13 @@ type Props = {
 };
 
 export default ({ parsedDate }: Props) => {
-  return Object.entries(getParsedDateFormats(parsedDate)).map(([key, value]) => (
-    <span key={key} className="border-l-2 border-transparent p-px px-2 hover:border-l-black hover:bg-neutral-200 dark:hover:border-l-white dark:hover:bg-neutral-900">
-      {key}: <CopyableText text={value} />
-    </span>
-  ));
+  return (
+    <div className="flex flex-col">
+      {Object.entries(getParsedDateFormats(parsedDate)).map(([key, value]) => (
+        <span key={key} className="border-l-2 border-transparent px-2 py-[2px] hover:border-l-black hover:bg-neutral-200 dark:hover:border-l-white dark:hover:bg-neutral-900">
+          {key}: <CopyableText text={value} />
+        </span>
+      ))}
+    </div>
+  );
 };

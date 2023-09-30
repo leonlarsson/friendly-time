@@ -68,7 +68,7 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
 
   return (
     <details className="select-none">
-      <summary className="mt-4 cursor-pointer text-xl font-semibold">Settings & Info</summary>
+      <summary className="mt-4 cursor-pointer select-none text-xl font-semibold">Settings & Info</summary>
       <span>
         The input method with the solid border is the currently active one. Currently using the <span className="underline">{useDateInput ? "date" : "text"}</span> input.
         <br />
@@ -100,7 +100,7 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
       </span>
 
       <details className="mt-2">
-        <summary className="cursor-pointer font-semibold">Issues?</summary>
+        <summary className="cursor-pointer select-none font-semibold">Issues?</summary>
         <div>
           <span>Issues? Click this button to reset settings and refresh: </span>
           <button
