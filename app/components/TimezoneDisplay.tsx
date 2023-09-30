@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CopyableText from "./CopyableText";
 import { getTimezones } from "../utils";
 
 type Props = {
@@ -67,19 +68,7 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
                 </span>{" "}
                 <span className="hidden text-sm text-neutral-500 group-hover:inline dark:text-neutral-400">{timezone.code}</span>
                 <br />
-                Local:{" "}
-                <span
-                  suppressHydrationWarning
-                  data-copyable={typeof timezone.result === "string"}
-                  className="font-medium data-[copyable=true]:cursor-copy data-[copyable=true]:select-all dark:font-semibold"
-                  title="Click to copy"
-                  onClick={e => {
-                    e.stopPropagation();
-                    typeof timezone.result === "string" && navigator.clipboard.writeText(timezone.result);
-                  }}
-                >
-                  {timezone.result ?? "Invalid Date"}
-                </span>
+                Local: <CopyableText text={timezone.result} />
               </button>
             );
           })}

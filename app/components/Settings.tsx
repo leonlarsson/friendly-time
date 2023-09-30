@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import CopyableText from "./CopyableText";
 
 type Props = {
   showOnlyDiscordTimestamps: boolean;
@@ -71,10 +72,7 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
       <span>
         The input method with the solid border is the currently active one. Currently using the <span className="underline">{useDateInput ? "date" : "text"}</span> input.
         <br />
-        Did you know you can easily copy the dates by clicking on then?{" "}
-        <span className="cursor-copy select-all" title="Click to copy" onClick={() => navigator.clipboard.writeText("Try it out!")}>
-          Try it out!
-        </span>
+        Did you know you can easily copy the dates by clicking on then? <CopyableText text="Try it out!" />
       </span>
 
       <div className="flex flex-col gap-2 py-2">
