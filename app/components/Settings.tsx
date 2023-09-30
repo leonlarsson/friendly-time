@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CopyableText from "./CopyableText";
 
 type Props = {
@@ -16,6 +16,8 @@ type Props = {
 };
 
 export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, timestampParseMilliseconds, setTimestampParseMilliseconds, useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
+  const [settingsFilter, setSettingsFilter] = useState("");
+
   const settings = [
     {
       name: "Show only Discord Timestamps",
@@ -49,6 +51,8 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
     }
   ];
 
+  const filteredSettings = settings.filter(setting => [setting.name, setting.description].some(text => text.toLowerCase().includes(settingsFilter.toLowerCase())));
+
   // Save settings to a single localStorage object
   useEffect(
     () => {
@@ -75,8 +79,19 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
         Did you know you can easily copy the dates by clicking on then? <CopyableText text="Try it out!" />
       </span>
 
+      <div>
+        <input
+          className="mt-2 rounded border border-black/50 p-1 text-black dark:border-white/50 dark:bg-neutral-950 dark:text-white"
+          type="text"
+          aria-label="A text input field to filter the settings."
+          placeholder="Filter settings"
+          value={settingsFilter}
+          onChange={e => setSettingsFilter(e.target.value)}
+        />
+      </div>
+
       <div className="flex flex-col gap-2 py-2">
-        {settings.map(({ name, description, value, setValue }) => (
+        {filteredSettings.map(({ name, description, value, setValue }) => (
           <div key={name}>
             <input type="checkbox" className="peer me-1 accent-black dark:accent-white" id={name} checked={value} onChange={() => setValue(!value)} />
             <label className="opacity-90 peer-checked:opacity-100" htmlFor={name}>
@@ -85,6 +100,7 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
             <p className="text-sm text-neutral-600 dark:text-neutral-400">{description}</p>
           </div>
         ))}
+        {filteredSettings.length === 0 && <span className="text-red-600 dark:text-red-400">No matching settings.</span>}
       </div>
 
       <span>
