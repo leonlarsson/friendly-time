@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 
 type Props = {
+  showOnlyDiscordTimestamps: boolean;
+  setshowOnlyDiscordTimestamps: (value: boolean) => void;
   timestampParseMilliseconds: boolean;
   setTimestampParseMilliseconds: (value: boolean) => void;
   useDateInput: boolean;
@@ -12,8 +14,14 @@ type Props = {
   setSortTimezonesByTime: (value: boolean) => void;
 };
 
-export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
+export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, timestampParseMilliseconds, setTimestampParseMilliseconds, useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
   const settings = [
+    {
+      name: "Show only Discord Timestamps",
+      description: "If enabled, show only Discord timestamps. Otherwise, show all modules.",
+      value: showOnlyDiscordTimestamps,
+      setValue: setshowOnlyDiscordTimestamps
+    },
     {
       name: "Parse timestamps as milliseconds",
       description: `If enabled, parse timestamps as milliseconds instead of seconds. Currently parsing timestamps in ${timestampParseMilliseconds === true ? "milliseconds" : "seconds"}.`,
@@ -46,6 +54,7 @@ export default ({ timestampParseMilliseconds, setTimestampParseMilliseconds, use
       localStorage.setItem(
         "friendlyTimeSettings",
         JSON.stringify({
+          showOnlyDiscordTimestamps,
           timestampParseMilliseconds,
           strictMode,
           use24HourFormat,

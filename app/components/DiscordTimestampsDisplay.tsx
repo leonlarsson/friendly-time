@@ -2,11 +2,12 @@ import { getDiscordTimestamps } from "../utils";
 
 type Props = {
   parsedDate: Date | null;
+  open: boolean;
 };
 
-export default ({ parsedDate }: Props) => {
+export default ({ parsedDate, open }: Props) => {
   return (
-    <details>
+    <details open={open}>
       <summary className="cursor-pointer font-semibold underline">Discord Timestamps</summary>
       <div className="flex flex-col gap-1 py-2">
         {Object.entries(getDiscordTimestamps(parsedDate)).map(([key, value]) => (

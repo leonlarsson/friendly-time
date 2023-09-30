@@ -16,6 +16,7 @@ export const Main = ({ input }: { input?: string }) => {
   const [textInput, setTextInput] = useState(input ?? "");
   const [dateInput, setDateInput] = useState("");
   const [useDateInput, setUseDateInput] = useState(input ? false : true);
+  const [showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps] = useState<boolean>(settings?.showOnlyDiscordTimestamps ?? false);
   const [timestampParseMilliseconds, setTimestampParseMilliseconds] = useState<boolean>(settings?.timestampParseMilliseconds ?? false);
   const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
   const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
@@ -119,6 +120,8 @@ export const Main = ({ input }: { input?: string }) => {
 
       {/* Settings & Info */}
       <Settings
+        showOnlyDiscordTimestamps={showOnlyDiscordTimestamps}
+        setshowOnlyDiscordTimestamps={setshowOnlyDiscordTimestamps}
         timestampParseMilliseconds={timestampParseMilliseconds}
         setTimestampParseMilliseconds={setTimestampParseMilliseconds}
         useDateInput={useDateInput}
@@ -133,11 +136,11 @@ export const Main = ({ input }: { input?: string }) => {
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
       <div className="flex flex-col gap-1">
-        <BasicInfoDisplay parsedDate={parsedDate} />
+        {!showOnlyDiscordTimestamps && <BasicInfoDisplay parsedDate={parsedDate} />}
 
-        <DiscordTimestampsDisplay parsedDate={parsedDate} />
+        <DiscordTimestampsDisplay parsedDate={parsedDate} open={showOnlyDiscordTimestamps} />
 
-        <TimezoneDisplay parsedDate={parsedDate} use24HourFormat={use24HourFormat} sortTimezonesByTime={sortTimezonesByTime} />
+        {!showOnlyDiscordTimestamps && <TimezoneDisplay parsedDate={parsedDate} use24HourFormat={use24HourFormat} sortTimezonesByTime={sortTimezonesByTime} />}
       </div>
     </>
   );
