@@ -14,6 +14,8 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
   const [filter, setFilter] = useState<string>(filterParam ?? "");
   const [showOnlyFavorited, setShowOnlyFavroted] = useState(false);
 
+  const filteredTimezones = getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter).filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) || timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone : timezone.code));
+
   const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
     localStorage.setItem("timezoneFilter", e.target.value);
@@ -45,35 +47,35 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
 
       <summary className="cursor-pointer select-none font-semibold underline">Timezones</summary>
       <div className="flex flex-col py-2">
-        {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter)
-          .filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) || timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone : timezone.code))
-          .map(timezone => {
-            const isFavorite = favoriteTimezones.includes(`${timezone.city}-${timezone.code}`);
-            const isUsersTimezone = timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone;
+        {filteredTimezones.map(timezone => {
+          const isFavorite = favoriteTimezones.includes(`${timezone.city}-${timezone.code}`);
+          const isUsersTimezone = timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-            return (
-              <button
-                key={timezone.city}
-                data-favorite={isFavorite}
-                data-users-timezone={isUsersTimezone}
-                className="group border-l-2 border-transparent p-[6px] px-2 text-left hover:border-l-black hover:bg-neutral-200 data-[users-timezone=true]:border-l-4 data-[users-timezone=true]:border-black dark:hover:border-l-white dark:hover:bg-neutral-900 dark:data-[users-timezone=true]:border-white"
-                title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                onClick={() => {
-                  if (isFavorite) return removeFavoriteTimezone(`${timezone.city}-${timezone.code}`);
-                  return addFavoriteTimezone(`${timezone.city}-${timezone.code}`);
-                }}
-              >
-                <span className="text-lg underline">
-                  {isFavorite && <Star />}
-                  {isUsersTimezone && <Home />}
-                  {timezone.city}, {timezone.country}
-                </span>{" "}
-                <span className="hidden text-sm text-neutral-500 group-hover:inline dark:text-neutral-400">{timezone.code}</span>
-                <br />
-                Local: <CopyableText text={timezone.result} />
-              </button>
-            );
-          })}
+          return (
+            <button
+              key={timezone.city}
+              data-favorite={isFavorite}
+              data-users-timezone={isUsersTimezone}
+              className="group border-l-2 border-transparent p-[6px] px-2 text-left hover:border-l-black hover:bg-neutral-200 data-[users-timezone=true]:border-l-4 data-[users-timezone=true]:border-black dark:hover:border-l-white dark:hover:bg-neutral-900 dark:data-[users-timezone=true]:border-white"
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              onClick={() => {
+                if (isFavorite) return removeFavoriteTimezone(`${timezone.city}-${timezone.code}`);
+                return addFavoriteTimezone(`${timezone.city}-${timezone.code}`);
+              }}
+            >
+              <span className="text-lg underline">
+                {isFavorite && <Star />}
+                {isUsersTimezone && <Home />}
+                {timezone.city}, {timezone.country}
+              </span>{" "}
+              <span className="hidden text-sm text-neutral-500 group-hover:inline dark:text-neutral-400">{timezone.code}</span>
+              <br />
+              Local: <CopyableText text={timezone.result} />
+            </button>
+          );
+        })}
+
+        {filteredTimezones.length === 0 && <span className="text-red-600 dark:text-red-400">No matching timezones.</span>}
       </div>
     </details>
   );

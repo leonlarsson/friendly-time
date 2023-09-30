@@ -100,6 +100,7 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
             <p className="text-sm text-neutral-600 dark:text-neutral-400">{description}</p>
           </div>
         ))}
+
         {filteredSettings.length === 0 && <span className="text-red-600 dark:text-red-400">No matching settings.</span>}
       </div>
 
