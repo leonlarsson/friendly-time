@@ -41,7 +41,7 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
       </label>
 
       <summary className="cursor-pointer font-semibold underline">Timezones</summary>
-      <div className="flex flex-col gap-2 py-2">
+      <div className="flex flex-col py-2">
         {getTimezones(parsedDate, use24HourFormat, sortTimezonesByTime, filter)
           .filter(timezone => (showOnlyFavorited ? favoriteTimezones.includes(`${timezone.city}-${timezone.code}`) || timezone.code === Intl.DateTimeFormat().resolvedOptions().timeZone : timezone.code))
           .map(timezone => {
@@ -53,7 +53,7 @@ export default ({ parsedDate, use24HourFormat, sortTimezonesByTime }: Props) => 
                 key={timezone.city}
                 data-favorite={isFavorite}
                 data-users-timezone={isUsersTimezone}
-                className="group border-l-2 border-transparent p-px px-2 text-left hover:border-l-black hover:bg-neutral-200 data-[users-timezone=true]:border-l-4 data-[users-timezone=true]:border-black dark:hover:border-l-white dark:hover:bg-neutral-900 dark:data-[users-timezone=true]:border-white"
+                className="group border-l-2 border-transparent p-[6px] px-2 text-left hover:border-l-black hover:bg-neutral-200 data-[users-timezone=true]:border-l-4 data-[users-timezone=true]:border-black dark:hover:border-l-white dark:hover:bg-neutral-900 dark:data-[users-timezone=true]:border-white"
                 title={isFavorite ? "Remove from favorites" : "Add to favorites"}
                 onClick={() => {
                   if (isFavorite) return removeFavoriteTimezone(`${timezone.city}-${timezone.code}`);
