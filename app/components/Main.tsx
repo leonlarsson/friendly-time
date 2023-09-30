@@ -86,7 +86,7 @@ export const Main = ({ input }: { input?: string }) => {
           type="text"
           aria-label="A text input field that chooses what date to show on the website."
           data-current-input={!useDateInput}
-          placeholder="next friday at 6pm"
+          placeholder={["next friday at 6pm", "tomorrow at noon", "in 2 days at 7pm", "in 1 day 2 hours"][Math.floor(Math.random() * 4)]}
           value={textInput}
           onChange={onTextInput}
         />
