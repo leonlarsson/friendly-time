@@ -45,11 +45,14 @@ export const Main = ({ input }: { input?: string }) => {
 
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement> | string) => {
     // On text input, set both text input and datetime-local input to the same value (though transformed to a format the datetime-local accepts). Also set useDateInput to false
-    setTextInput(typeof e === "string" ? e : e.target.value);
+    const inputValue = typeof e === "string" ? e : e.target.value;
+    setTextInput(inputValue);
 
     // EXPERIMENTAL
     // If the input is a valid number, set the datetime-local input to the parsed timestamp
-    const timestamp = parseInt(typeof e === "string" ? e : e.target.value);
+    const timestamp = /^\d+$/.test(inputValue) ? parseInt(inputValue) : NaN;
+    console.log(timestamp);
+
     if (!isNaN(timestamp)) {
       const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
       if (parsedDateTemp.toString() !== "Invalid Date") {
@@ -63,7 +66,7 @@ export const Main = ({ input }: { input?: string }) => {
     // If the input is not a valid number, set the datetime-local input to the parsed date
     // buildDateTimeInputFormat() builds the string that the datetime-local input accepts.
     // If no date is passed (if parseDate fails), it defaults to the current date
-    setDateInput(buildDateTimeInputFormat(parseDate(typeof e === "string" ? e : e.target.value)));
+    setDateInput(buildDateTimeInputFormat(parseDate(inputValue)));
 
     setUseDateInput(false);
   };
