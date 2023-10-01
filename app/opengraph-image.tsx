@@ -15,7 +15,7 @@ export default async () => {
 
   return new ImageResponse(
     (
-      <div tw="h-full w-full flex flex-col justify-center items-center text-center font-normal">
+      <div tw="h-full w-full flex flex-col justify-center items-center text-center font-normal bg-white">
         <div tw="text-5xl font-bold">Friendly Time</div>
         <div tw="text-2xl px-6 mb-4">Easily convert human-friendly time inputs into various date formats, timezones, and Discord timestamps.</div>
 
