@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { parseDate, strict } from "chrono-node";
 import Settings from "./Settings";
 import BasicInfoDisplay from "./BasicInfoDisplay";
@@ -8,19 +9,24 @@ import DiscordTimestampsDisplay from "./DiscordTimestampsDisplay";
 import TimezoneDisplay from "./TimezoneDisplay";
 import { buildDateTimeInputFormat } from "../utils";
 
-export const Main = ({ input }: { input?: string }) => {
+export const Main = () => {
+  const inputSearchParam = useSearchParams().get("input");
   let settings;
   if (typeof localStorage !== "undefined") settings = JSON.parse(localStorage.getItem("friendlyTimeSettings") ?? "{}");
-
   const [hasRendered, setHasRendered] = useState(false);
-  const [textInput, setTextInput] = useState(input ?? "");
+  const [textInput, setTextInput] = useState(inputSearchParam ?? "");
   const [dateInput, setDateInput] = useState("");
-  const [useDateInput, setUseDateInput] = useState(input ? false : true);
+  const [useDateInput, setUseDateInput] = useState(inputSearchParam ? false : true);
+
+  // Settings
   const [showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps] = useState<boolean>(settings?.showOnlyDiscordTimestamps ?? false);
+  const [noSearchParamState, setNoSearchParamState] = useState(settings?.noSearchParamState ?? false);
   const [timestampParseMilliseconds, setTimestampParseMilliseconds] = useState<boolean>(settings?.timestampParseMilliseconds ?? false);
   const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
   const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
   const [sortTimezonesByTime, setSortTimezonesByTime] = useState(settings?.sortTimezonesByTime ?? false);
+
+  const input = useDateInput ? dateInput : textInput;
 
   // Set datetime-local input to current date on first render
   useEffect(() => {
@@ -28,7 +34,23 @@ export const Main = ({ input }: { input?: string }) => {
     setHasRendered(true);
   }, []);
 
-  let parsedDate = strictMode ? strict.parseDate(useDateInput ? dateInput : textInput) : parseDate(useDateInput ? dateInput : textInput);
+  // Add text/date input to the URL searchParams
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    // If noSearchParamState is true, remove the input searchParam
+    if (noSearchParamState) {
+      url.searchParams.delete("input");
+    } else {
+      input === "" ? url.searchParams.delete("input") : url.searchParams.set("input", input);
+    }
+
+    // Replace the URL with the new URL - The next router triggers a network request, which is not what we want
+    // router.replace(url.toString());
+    window.history.replaceState({}, "", url.toString());
+  }, [textInput, noSearchParamState]);
+
+  let parsedDate = strictMode ? strict.parseDate(input) : parseDate(input);
 
   // If parsedDate is null, try to parse the input as a timestamp in milliseconds or seconds
   if (!parsedDate) {
@@ -51,7 +73,6 @@ export const Main = ({ input }: { input?: string }) => {
     // EXPERIMENTAL
     // If the input is a valid number, set the datetime-local input to the parsed timestamp
     const timestamp = /^\d+$/.test(inputValue) ? parseInt(inputValue) : NaN;
-    console.log(timestamp);
 
     if (!isNaN(timestamp)) {
       const parsedDateTemp = new Date(timestamp * (timestampParseMilliseconds ? 1 : 1000));
@@ -125,6 +146,8 @@ export const Main = ({ input }: { input?: string }) => {
       <Settings
         showOnlyDiscordTimestamps={showOnlyDiscordTimestamps}
         setshowOnlyDiscordTimestamps={setshowOnlyDiscordTimestamps}
+        noSearchParamState={noSearchParamState}
+        setNoSearchParamState={setNoSearchParamState}
         timestampParseMilliseconds={timestampParseMilliseconds}
         setTimestampParseMilliseconds={setTimestampParseMilliseconds}
         useDateInput={useDateInput}

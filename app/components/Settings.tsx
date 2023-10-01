@@ -4,6 +4,8 @@ import CopyableText from "./CopyableText";
 type Props = {
   showOnlyDiscordTimestamps: boolean;
   setshowOnlyDiscordTimestamps: (value: boolean) => void;
+  noSearchParamState: boolean;
+  setNoSearchParamState: (value: boolean) => void;
   timestampParseMilliseconds: boolean;
   setTimestampParseMilliseconds: (value: boolean) => void;
   useDateInput: boolean;
@@ -15,7 +17,21 @@ type Props = {
   setSortTimezonesByTime: (value: boolean) => void;
 };
 
-export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, timestampParseMilliseconds, setTimestampParseMilliseconds, useDateInput, strictMode, setStrictMode, use24HourFormat, setUse24HourFormat, sortTimezonesByTime, setSortTimezonesByTime }: Props) => {
+export default ({
+  showOnlyDiscordTimestamps,
+  setshowOnlyDiscordTimestamps,
+  noSearchParamState,
+  setNoSearchParamState,
+  timestampParseMilliseconds,
+  setTimestampParseMilliseconds,
+  useDateInput,
+  strictMode,
+  setStrictMode,
+  use24HourFormat,
+  setUse24HourFormat,
+  sortTimezonesByTime,
+  setSortTimezonesByTime
+}: Props) => {
   const [settingsFilter, setSettingsFilter] = useState("");
 
   const settings = [
@@ -24,6 +40,12 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
       description: "If enabled, show only Discord timestamps. Otherwise, show all modules.",
       value: showOnlyDiscordTimestamps,
       setValue: setshowOnlyDiscordTimestamps
+    },
+    {
+      name: "Don't save input to URL",
+      description: `If enabled, do not append input to the URL. Currently ${noSearchParamState ? "enabled" : "disabled"}.`,
+      value: noSearchParamState,
+      setValue: setNoSearchParamState
     },
     {
       name: "Parse timestamps as milliseconds",
@@ -60,6 +82,7 @@ export default ({ showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps, times
         "friendlyTimeSettings",
         JSON.stringify({
           showOnlyDiscordTimestamps,
+          noSearchParamState,
           timestampParseMilliseconds,
           strictMode,
           use24HourFormat,

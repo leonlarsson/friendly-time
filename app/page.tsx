@@ -1,13 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import Main from "./components/Main";
 
-type Props = {
-  searchParams: {
-    input?: string;
-  };
-};
-
-export default function Home({ searchParams: { input } }: Props) {
+export default function Home() {
   return (
     <main className="mb-5 w-full max-w-4xl">
       <h1 className="text-4xl font-black">Friendly Time</h1>
@@ -22,7 +16,7 @@ export default function Home({ searchParams: { input } }: Props) {
           }
         }}
       />
-      <Main input={input} />
+      <Main />
     </main>
   );
 }
