@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Friendly Time Parser",
-  description: "Get various date formats and timezone info from a human-friendly input.",
+  description: "Easily convert human-friendly time inputs into various date formats, timezones, and Discord timestamps.",
   metadataBase: new URL("https://friendly-time.com"),
   openGraph: {
     title: "Friendly Time Parser",
