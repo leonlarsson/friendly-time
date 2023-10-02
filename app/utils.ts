@@ -10,8 +10,8 @@ dayjs.extend(timezone);
 dayjs.extend(utc);
 dayjs.extend(advancedFormat);
 
-export const getParsedDateFormats = (date: Date | null) => ({
-  Local: date?.toString(),
+export const getParsedDateFormats = (date: Date | null, ogImage?: boolean) => ({
+  ...(ogImage ? undefined : { Local: date?.toString() }),
   "UTC Date": date?.toUTCString(),
   "ISO Date": date?.toISOString().toString(),
   "Day of the Month": date?.getDate().toString(),
