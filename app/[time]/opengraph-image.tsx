@@ -4,7 +4,7 @@ import { getParsedDateFormats } from "../utils";
 
 export const runtime = "edge";
 
-export default async ({ params: { time }, searchParams }: { params: { time: string } }) => {
+export default async ({ params: { time }, searchParams }: { params: { time: string }; searchParams: { time?: string } }) => {
   console.log("hello");
 
   console.log(searchParams);
