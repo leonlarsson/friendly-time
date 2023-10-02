@@ -9,7 +9,7 @@ export default async ({ params: { time } }: { params: { time: string } }) => {
   //   const boldFont = fetch(new URL("/public/fonts/Inter-Bold.ttf", import.meta.url)).then(res => res.arrayBuffer());
   const [regularFontData /* boldFontData */] = await Promise.all([regularFont /* boldFont */]);
 
-  const parsedDate = parseDate(time);
+  const parsedDate = parseDate(decodeURIComponent(time));
 
   return new ImageResponse(
     (
@@ -18,7 +18,7 @@ export default async ({ params: { time } }: { params: { time: string } }) => {
         <div tw="text-2xl px-6 mb-4">Easily convert human-friendly time inputs into various date formats, timezones, and Discord timestamps.</div>
 
         <div tw="flex flex-col px-12 w-full">
-          <div tw="bg-transparent text-xl w-full border-black border text-black p-2 rounded-md mb-3">{time}</div>
+          <div tw="bg-transparent text-xl w-full border-black border text-black p-2 rounded-md mb-3">{decodeURIComponent(time)}</div>
           {Object.entries(getParsedDateFormats(parsedDate, true)).map(([key, value]) => (
             <span key={key} tw="flex text-lg">
               {key}: <span tw="ml-1">{value ?? "Invalid Date"}</span>
