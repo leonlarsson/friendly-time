@@ -4,11 +4,7 @@ import { getParsedDateFormats } from "../utils";
 
 export const runtime = "edge";
 
-export default async ({ params: { time }, searchParams }: { params: { time: string }; searchParams: { time?: string } }) => {
-  console.log("hello");
-
-  console.log(searchParams);
-
+export default async ({ params: { time } }: { params: { time: string } }) => {
   const regularFont = fetch(new URL("/public/fonts/Inter-Regular.ttf", import.meta.url)).then(res => res.arrayBuffer());
   //   const boldFont = fetch(new URL("/public/fonts/Inter-Bold.ttf", import.meta.url)).then(res => res.arrayBuffer());
   const [regularFontData /* boldFontData */] = await Promise.all([regularFont /* boldFont */]);
