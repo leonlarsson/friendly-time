@@ -20,42 +20,46 @@ export const getParsedDateFormats = (date: Date | null, ogImage?: boolean) => {
     "ISO Date": date?.toISOString().toString(),
     Year: date?.getFullYear().toString(),
     Week: date ? getWeekNumber(date) : null,
-    Relative: date ? `${!dateHasPassed ? "In" : ""} ${humanizeDuration(date.getTime() - new Date().getTime(), { round: true })} ${dateHasPassed ? "ago" : ""}` : null,
+    Relative: date ? `${!dateHasPassed ? "In " : ""}${humanizeDuration(date.getTime() - new Date().getTime(), { round: true })}${dateHasPassed ? " ago" : ""}` : null,
     "Timestamp (milliseconds)": date?.getTime().toString(),
     "Timestamp (seconds)": date ? Math.floor(date?.getTime() / 1000).toString() : null
   };
 };
 
-export const getDiscordTimestamps = (date: Date | null) => ({
-  "Short Time": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:t>` : null,
-    result: dayjs(date).format("h:mm A")
-  },
-  "Long Time": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:T>` : null,
-    result: dayjs(date).format("h:mm:ss A")
-  },
-  "Short Date": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:d>` : null,
-    result: dayjs(date).format("MM/DD/YYYY")
-  },
-  "Long Date": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:D>` : null,
-    result: dayjs(date).format("MMMM D, YYYY")
-  },
-  "Short Date/Time": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:f>` : null,
-    result: dayjs(date).format("MMMM D, YYYY h:mm A")
-  },
-  "Long Date/Time": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:F>` : null,
-    result: dayjs(date).format("dddd, MMMM D, YYYY h:mm A")
-  },
-  "Relative Time": {
-    value: date ? `<t:${Math.floor(date.getTime() / 1000)}:R>` : null,
-    result: date ? dayjs(date).fromNow() : "Invalid Date"
-  }
-});
+export const getDiscordTimestamps = (date: Date | null) => {
+  const dateHasPassed = date && date.getTime() < new Date().getTime();
+
+  return {
+    "Short Time": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:t>` : null,
+      result: dayjs(date).format("h:mm A")
+    },
+    "Long Time": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:T>` : null,
+      result: dayjs(date).format("h:mm:ss A")
+    },
+    "Short Date": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:d>` : null,
+      result: dayjs(date).format("MM/DD/YYYY")
+    },
+    "Long Date": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:D>` : null,
+      result: dayjs(date).format("MMMM D, YYYY")
+    },
+    "Short Date/Time": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:f>` : null,
+      result: dayjs(date).format("MMMM D, YYYY h:mm A")
+    },
+    "Long Date/Time": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:F>` : null,
+      result: dayjs(date).format("dddd, MMMM D, YYYY h:mm A")
+    },
+    "Relative Time": {
+      value: date ? `<t:${Math.floor(date.getTime() / 1000)}:R>` : null,
+      result: date ? `${!dateHasPassed ? "in " : ""}${humanizeDuration(date.getTime() - new Date().getTime(), { round: true, largest: 1, units: ["y", "mo", "w", "d", "h", "m", "s"] })}${dateHasPassed ? " ago" : ""}` : "Invalid Date"
+    }
+  };
+};
 
 export const getTimezones = (date: Date | null, use24HourFormat: boolean, sortByTime: boolean, filter: string) =>
   (sortByTime ? timezones : [...timezones].sort((a, b) => a.city.toLowerCase().localeCompare(b.city.toLowerCase())))
