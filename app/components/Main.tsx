@@ -20,7 +20,8 @@ export const Main = () => {
 
   // Settings
   const [showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps] = useState<boolean>(settings?.showOnlyDiscordTimestamps ?? false);
-  const [noSearchParamState, setNoSearchParamState] = useState(settings?.noSearchParamState ?? false);
+  const [searchParamStateDisabled, setSearchParamStateDisabled] = useState(settings?.searchParamStateDisabled ?? false);
+  const [timeTickingDisabled, setTimeTickingDisabled] = useState(settings?.timeTickingDisabled ?? false);
   const [timestampParseMilliseconds, setTimestampParseMilliseconds] = useState<boolean>(settings?.timestampParseMilliseconds ?? false);
   const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
   const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
@@ -38,8 +39,8 @@ export const Main = () => {
   useEffect(() => {
     const url = new URL(window.location.href);
 
-    // If noSearchParamState is true, remove the input searchParam
-    if (noSearchParamState) {
+    // If searchParamStateDisabled is true, remove the input searchParam
+    if (searchParamStateDisabled) {
       url.searchParams.delete("input");
     } else {
       input === "" ? url.searchParams.delete("input") : url.searchParams.set("input", input);
@@ -48,7 +49,7 @@ export const Main = () => {
     // Replace the URL with the new URL - The next router triggers a network request, which is not what we want
     // router.replace(url.toString());
     window.history.replaceState({}, "", url.toString());
-  }, [textInput, noSearchParamState]);
+  }, [textInput, searchParamStateDisabled]);
 
   let parsedDate = strictMode ? strict.parseDate(input) : parseDate(input);
 
@@ -146,8 +147,10 @@ export const Main = () => {
       <Settings
         showOnlyDiscordTimestamps={showOnlyDiscordTimestamps}
         setshowOnlyDiscordTimestamps={setshowOnlyDiscordTimestamps}
-        noSearchParamState={noSearchParamState}
-        setNoSearchParamState={setNoSearchParamState}
+        timeTickingDisabled={timeTickingDisabled}
+        setTimeTickingDisabled={setTimeTickingDisabled}
+        searchParamStateDisabled={searchParamStateDisabled}
+        setSearchParamStateDisabled={setSearchParamStateDisabled}
         timestampParseMilliseconds={timestampParseMilliseconds}
         setTimestampParseMilliseconds={setTimestampParseMilliseconds}
         useDateInput={useDateInput}
@@ -162,9 +165,9 @@ export const Main = () => {
       <hr className="my-4 border-neutral-900 dark:border-neutral-300" />
 
       <div className="flex flex-col gap-1">
-        {!showOnlyDiscordTimestamps && <BasicInfoDisplay parsedDate={parsedDate} />}
+        {!showOnlyDiscordTimestamps && <BasicInfoDisplay parsedDate={parsedDate} timeTickingDisabled={timeTickingDisabled} />}
 
-        <DiscordTimestampsDisplay parsedDate={parsedDate} open={showOnlyDiscordTimestamps} />
+        <DiscordTimestampsDisplay parsedDate={parsedDate} open={showOnlyDiscordTimestamps} timeTickingDisabled={timeTickingDisabled} />
 
         {!showOnlyDiscordTimestamps && <TimezoneDisplay parsedDate={parsedDate} use24HourFormat={use24HourFormat} sortTimezonesByTime={sortTimezonesByTime} />}
       </div>

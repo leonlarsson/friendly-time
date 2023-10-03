@@ -4,8 +4,10 @@ import CopyableText from "./CopyableText";
 type Props = {
   showOnlyDiscordTimestamps: boolean;
   setshowOnlyDiscordTimestamps: (value: boolean) => void;
-  noSearchParamState: boolean;
-  setNoSearchParamState: (value: boolean) => void;
+  timeTickingDisabled: boolean;
+  setTimeTickingDisabled: (value: boolean) => void;
+  searchParamStateDisabled: boolean;
+  setSearchParamStateDisabled: (value: boolean) => void;
   timestampParseMilliseconds: boolean;
   setTimestampParseMilliseconds: (value: boolean) => void;
   useDateInput: boolean;
@@ -20,8 +22,10 @@ type Props = {
 export default ({
   showOnlyDiscordTimestamps,
   setshowOnlyDiscordTimestamps,
-  noSearchParamState,
-  setNoSearchParamState,
+  timeTickingDisabled,
+  setTimeTickingDisabled,
+  searchParamStateDisabled,
+  setSearchParamStateDisabled,
   timestampParseMilliseconds,
   setTimestampParseMilliseconds,
   useDateInput,
@@ -42,10 +46,16 @@ export default ({
       setValue: setshowOnlyDiscordTimestamps
     },
     {
+      name: "No time ticking",
+      description: `If enabled, do not update the time each second. Otherwise, update the time each second..`,
+      value: timeTickingDisabled,
+      setValue: setTimeTickingDisabled
+    },
+    {
       name: "Don't save input to URL",
-      description: `If enabled, do not append input to the URL. Currently ${noSearchParamState ? "enabled" : "disabled"}.`,
-      value: noSearchParamState,
-      setValue: setNoSearchParamState
+      description: `If enabled, do not append input to the URL.`,
+      value: searchParamStateDisabled,
+      setValue: setSearchParamStateDisabled
     },
     {
       name: "Parse timestamps as milliseconds",
@@ -82,7 +92,8 @@ export default ({
         "friendlyTimeSettings",
         JSON.stringify({
           showOnlyDiscordTimestamps,
-          noSearchParamState,
+          timeTickingDisabled,
+          searchParamStateDisabled,
           timestampParseMilliseconds,
           strictMode,
           use24HourFormat,

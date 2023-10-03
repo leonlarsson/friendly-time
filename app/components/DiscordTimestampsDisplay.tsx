@@ -1,12 +1,23 @@
+import { useEffect, useState } from "react";
 import CopyableText from "./CopyableText";
 import { getDiscordTimestamps } from "../utils";
 
 type Props = {
   parsedDate: Date | null;
   open: boolean;
+  timeTickingDisabled: boolean;
 };
 
-export default ({ parsedDate, open }: Props) => {
+export default ({ parsedDate, open, timeTickingDisabled }: Props) => {
+  const [_, setRefreshToggle] = useState(false);
+
+  // Update every second
+  useEffect(() => {
+    if (timeTickingDisabled) return;
+    const interval = setInterval(() => setRefreshToggle(prev => !prev), 1000);
+    return () => clearInterval(interval);
+  }, [timeTickingDisabled]);
+
   return (
     <details open={open}>
       <summary className="cursor-pointer select-none font-semibold underline">Discord Timestamps</summary>
