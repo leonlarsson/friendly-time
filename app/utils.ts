@@ -1,3 +1,4 @@
+import humanizeDuration from "humanize-duration";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
@@ -10,16 +11,20 @@ dayjs.extend(timezone);
 dayjs.extend(utc);
 dayjs.extend(advancedFormat);
 
-export const getParsedDateFormats = (date: Date | null, ogImage?: boolean) => ({
-  ...(ogImage ? undefined : { Local: date?.toString() }),
-  "UTC Date": date?.toUTCString(),
-  "ISO Date": date?.toISOString().toString(),
-  Year: date?.getFullYear().toString(),
-  Week: date ? getWeekNumber(date) : null,
-  Relative: date ? dayjs(date).fromNow() : null,
-  "Timestamp (milliseconds)": date?.getTime().toString(),
-  "Timestamp (seconds)": date ? Math.floor(date?.getTime() / 1000).toString() : null
-});
+export const getParsedDateFormats = (date: Date | null, ogImage?: boolean) => {
+  const dateHasPassed = date && date.getTime() < new Date().getTime();
+
+  return {
+    ...(ogImage ? undefined : { Local: date?.toString() }),
+    "UTC Date": date?.toUTCString(),
+    "ISO Date": date?.toISOString().toString(),
+    Year: date?.getFullYear().toString(),
+    Week: date ? getWeekNumber(date) : null,
+    Relative: date ? `${!dateHasPassed ? "In" : ""} ${humanizeDuration(date.getTime() - new Date().getTime(), { round: true })} ${dateHasPassed ? "ago" : ""}` : null,
+    "Timestamp (milliseconds)": date?.getTime().toString(),
+    "Timestamp (seconds)": date ? Math.floor(date?.getTime() / 1000).toString() : null
+  };
+};
 
 export const getDiscordTimestamps = (date: Date | null) => ({
   "Short Time": {
