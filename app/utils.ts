@@ -14,8 +14,6 @@ export const getParsedDateFormats = (date: Date | null, ogImage?: boolean) => ({
   ...(ogImage ? undefined : { Local: date?.toString() }),
   "UTC Date": date?.toUTCString(),
   "ISO Date": date?.toISOString().toString(),
-  "Day of the Month": date?.getDate().toString(),
-  "Month of the Year": date ? (date?.getMonth() + 1).toString() : null,
   Year: date?.getFullYear().toString(),
   Week: date ? getWeekNumber(date) : null,
   Relative: date ? dayjs(date).fromNow() : null,
