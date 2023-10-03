@@ -18,6 +18,7 @@ export const getParsedDateFormats = (date: Date | null, ogImage?: boolean) => ({
   "Month of the Year": date ? (date?.getMonth() + 1).toString() : null,
   Year: date?.getFullYear().toString(),
   Week: date ? getWeekNumber(date) : null,
+  Relative: date ? dayjs(date).fromNow() : null,
   "Timestamp (milliseconds)": date?.getTime().toString(),
   "Timestamp (seconds)": date ? Math.floor(date?.getTime() / 1000).toString() : null
 });
