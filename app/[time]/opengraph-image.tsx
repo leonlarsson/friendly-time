@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/server";
 import { parseDate } from "chrono-node";
-import { getParsedDateFormats } from "../utils";
+import { getParsedDateFormats, getTimezones } from "../utils";
 
 export const runtime = "edge";
 
@@ -10,6 +10,7 @@ export default async ({ params: { time } }: { params: { time: string } }) => {
   const [regularFontData /* boldFontData */] = await Promise.all([regularFont /* boldFont */]);
 
   const parsedDate = parseDate(decodeURIComponent(time));
+  const dateData = getParsedDateFormats(parsedDate);
 
   return new ImageResponse(
     (
@@ -19,11 +20,13 @@ export default async ({ params: { time } }: { params: { time: string } }) => {
 
         <div tw="flex flex-col px-12 w-full">
           <div tw="bg-transparent text-xl w-full border-black border text-black p-2 rounded-md mb-3">{decodeURIComponent(time)}</div>
-          {Object.entries(getParsedDateFormats(parsedDate, true)).map(([key, value]) => (
-            <span key={key} tw="flex text-lg">
-              {key}: <span tw="ml-1">{value ?? "Invalid Date"}</span>
-            </span>
-          ))}
+
+          <span tw="text-4xl text-center flex">{dateData.Relative ?? "Invalid time"}</span>
+          <span tw="text-xl text-center flex">Sydney: {getTimezones(parsedDate, false, false, "Sydney")[0].result ?? "Invalid time"}</span>
+          <span tw="text-xl text-center flex">Stockholm: {getTimezones(parsedDate, true, false, "Stockholm")[0].result ?? "Invalid time"}</span>
+          <span tw="text-xl text-center flex">UTC: {dateData["UTC Date"] ?? "Invalid time"}</span>
+          <span tw="text-xl text-center flex">New York: {getTimezones(parsedDate, false, false, "New York")[0].result ?? "Invalid time"}</span>
+          <span tw="text-xl text-center flex">Los Angeles: {getTimezones(parsedDate, false, false, "Los Angeles")[0].result ?? "Invalid time"}</span>
         </div>
 
         <div tw="flex absolute top-[565px] left-[15px] text-lg">friendly-time.com</div>
