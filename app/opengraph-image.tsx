@@ -8,8 +8,8 @@ const times = ["now", "tomorrow", "next tuesday at 6am", "last friday"];
 
 export default async () => {
   const regularFont = fetch(new URL("/public/fonts/Inter-Regular.ttf", import.meta.url)).then(res => res.arrayBuffer());
-  const boldFont = fetch(new URL("/public/fonts/Inter-Bold.ttf", import.meta.url)).then(res => res.arrayBuffer());
-  const [regularFontData, boldFontData] = await Promise.all([regularFont, boldFont]);
+  //   const boldFont = fetch(new URL("/public/fonts/Inter-Bold.ttf", import.meta.url)).then(res => res.arrayBuffer());
+  const [regularFontData /* boldFontData */] = await Promise.all([regularFont /* boldFont */]);
 
   const randomIndex = Math.floor(Math.random() * times.length);
 
@@ -55,12 +55,12 @@ export default async () => {
           name: "Inter",
           data: regularFontData,
           weight: 400
-        },
-        {
-          name: "Inter",
-          data: boldFontData,
-          weight: 700
         }
+        // {
+        //   name: "Inter",
+        //   data: boldFontData,
+        //   weight: 700
+        // }
       ]
     }
   );
