@@ -1,4 +1,4 @@
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 import { parseDate } from "chrono-node";
 import { getParsedDateFormats, getTimezones } from "../utils";
 

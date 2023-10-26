@@ -1,5 +1,5 @@
 import { parseDate } from "chrono-node";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 import { getDiscordTimestamps } from "./utils";
 
 export const runtime = "edge";
