@@ -1,5 +1,32 @@
 import { Toaster } from "react-hot-toast";
 import Main from "./components/Main";
+import { Metadata } from "next";
+
+type Props = {
+  searchParams: {
+    input?: string;
+  };
+};
+
+export const generateMetadata = ({ searchParams: { input } }: Props): Metadata => {
+  return {
+    openGraph: {
+      title: "Friendly Time Parser",
+      description: "Get various date formats from a human-friendly input.",
+      url: "https://friendly-time.com",
+      siteName: "Friendly Time Parser",
+      locale: "en-US",
+      type: "website",
+      images: [
+        {
+          url: input ? `/og?input=${encodeURIComponent(input ?? "")}` : "/og",
+          width: 900,
+          height: 600,
+        },
+      ],
+    },
+  };
+};
 
 export default function Home() {
   return (
@@ -12,8 +39,8 @@ export default function Home() {
           style: {
             backgroundColor: "#111827",
             border: "1px solid #1F2937",
-            color: "#F9FAFB"
-          }
+            color: "#F9FAFB",
+          },
         }}
       />
       <Main />
