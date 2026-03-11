@@ -35,7 +35,7 @@ export default [
   { city: "Mexico City", code: "America/Mexico_City", country: "Mexico" },
   { city: "Vancouver", code: "America/Vancouver", country: "Canada" },
   { city: "Los Angeles", code: "America/Los_Angeles", country: "United States" },
-  { city: "Honolulu", code: "Pacific/Honolulu", country: "United States" }
+  { city: "Honolulu", code: "Pacific/Honolulu", country: "United States" },
 ] satisfies Timezone[];
 
 type Timezone = {

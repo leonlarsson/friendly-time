@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import CopyableText from "./CopyableText";
+import { FC, useEffect, useState } from "react";
+import { CopyableText } from "./CopyableText";
 
 type Props = {
   showOnlyDiscordTimestamps: boolean;
@@ -19,7 +19,7 @@ type Props = {
   setSortTimezonesByTime: (value: boolean) => void;
 };
 
-export default ({
+export const Settings: FC<Props> = ({
   showOnlyDiscordTimestamps,
   setshowOnlyDiscordTimestamps,
   timeTickingDisabled,
@@ -34,8 +34,8 @@ export default ({
   use24HourFormat,
   setUse24HourFormat,
   sortTimezonesByTime,
-  setSortTimezonesByTime
-}: Props) => {
+  setSortTimezonesByTime,
+}) => {
   const [settingsFilter, setSettingsFilter] = useState("");
 
   const settings = [
@@ -43,44 +43,44 @@ export default ({
       name: "Show only Discord Timestamps",
       description: "If enabled, show only Discord timestamps. Otherwise, show all modules.",
       value: showOnlyDiscordTimestamps,
-      setValue: setshowOnlyDiscordTimestamps
+      setValue: setshowOnlyDiscordTimestamps,
     },
     {
       name: "No time ticking",
       description: `If enabled, do not update the time each second. Otherwise, update the time each second..`,
       value: timeTickingDisabled,
-      setValue: setTimeTickingDisabled
+      setValue: setTimeTickingDisabled,
     },
     {
       name: "Don't save input to URL",
       description: `If enabled, do not append input to the URL.`,
       value: searchParamStateDisabled,
-      setValue: setSearchParamStateDisabled
+      setValue: setSearchParamStateDisabled,
     },
     {
       name: "Parse timestamps as milliseconds",
       description: `If enabled, parse timestamps as milliseconds instead of seconds. Currently parsing timestamps in ${timestampParseMilliseconds === true ? "milliseconds" : "seconds"}.`,
       value: timestampParseMilliseconds,
-      setValue: setTimestampParseMilliseconds
+      setValue: setTimestampParseMilliseconds,
     },
     {
       name: "Strict mode",
       description: "If enabled, parse only formal date patterns.",
       value: strictMode,
-      setValue: setStrictMode
+      setValue: setStrictMode,
     },
     {
       name: "Display 24-hour time format",
       description: "If enabled, display time using the 24-hour format for the timezones. Otherwise, use 12-hour format.",
       value: use24HourFormat,
-      setValue: setUse24HourFormat
+      setValue: setUse24HourFormat,
     },
     {
       name: "Sort timezones by time",
       description: "If enabled, sort list of timezones by their UTC offset. Otherwise, sort alphabetically.",
       value: sortTimezonesByTime,
-      setValue: setSortTimezonesByTime
-    }
+      setValue: setSortTimezonesByTime,
+    },
   ];
 
   const filteredSettings = settings.filter(setting => [setting.name, setting.description].some(text => text.toLowerCase().includes(settingsFilter.toLowerCase())));
@@ -97,16 +97,16 @@ export default ({
           timestampParseMilliseconds,
           strictMode,
           use24HourFormat,
-          sortTimezonesByTime
-        })
+          sortTimezonesByTime,
+        }),
       );
     },
-    settings.map(({ value }) => value)
+    settings.map(({ value }) => value),
   );
 
   return (
     <details className="select-none">
-      <summary className="mt-4 cursor-pointer select-none text-xl font-semibold">Settings & Info</summary>
+      <summary className="mt-4 cursor-pointer text-xl font-semibold select-none">Settings & Info</summary>
       <span>
         The input method with the solid border is the currently active one. Currently using the <span className="underline">{useDateInput ? "date" : "text"}</span> input.
         <br />
@@ -151,7 +151,7 @@ export default ({
       </span>
 
       <details className="mt-2">
-        <summary className="cursor-pointer select-none font-semibold">Issues?</summary>
+        <summary className="cursor-pointer font-semibold select-none">Issues?</summary>
         <div>
           <span>Issues? Click this button to reset settings and refresh: </span>
           <button

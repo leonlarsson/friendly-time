@@ -1,0 +1,31 @@
+import { FC } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { Toaster } from "react-hot-toast";
+import { Main } from "../components/Main";
+
+const IndexPage: FC = () => {
+  return (
+    <main className="mb-5 w-full max-w-4xl">
+      <h1 className="text-4xl font-black">Friendly Time</h1>
+      <div className="mb-4">Input your desired date/time through natural language or use the date/time selector to see information. Easily convert to a variety of timezones and Discord timestamps.</div>
+
+      <Toaster
+        toastOptions={{
+          style: {
+            backgroundColor: "#111827",
+            border: "1px solid #1F2937",
+            color: "#F9FAFB",
+          },
+        }}
+      />
+      <Main />
+    </main>
+  );
+};
+
+export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    input: typeof search.input === "string" ? search.input : undefined,
+  }),
+  component: IndexPage,
+});

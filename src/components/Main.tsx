@@ -1,54 +1,38 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { FC, useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { parseDate, strict } from "chrono-node";
-import Settings from "./Settings";
-import BasicInfoDisplay from "./BasicInfoDisplay";
-import DiscordTimestampsDisplay from "./DiscordTimestampsDisplay";
-import TimezoneDisplay from "./TimezoneDisplay";
+import { Settings } from "./Settings";
+import { BasicInfoDisplay } from "./BasicInfoDisplay";
+import { DiscordTimestampsDisplay } from "./DiscordTimestampsDisplay";
+import { TimezoneDisplay } from "./TimezoneDisplay";
 import { buildDateTimeInputFormat } from "../utils";
+import { Route } from "../routes/index";
 
-export const Main = () => {
-  const inputSearchParam = useSearchParams().get("input");
-  let settings;
-  if (typeof localStorage !== "undefined") settings = JSON.parse(localStorage.getItem("friendlyTimeSettings") ?? "{}");
-  const [hasRendered, setHasRendered] = useState(false);
+export const Main: FC = () => {
+  const { input: inputSearchParam } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+  const settings = JSON.parse(localStorage.getItem("friendlyTimeSettings") ?? "{}");
   const [textInput, setTextInput] = useState(inputSearchParam ?? "");
-  const [dateInput, setDateInput] = useState("");
-  const [useDateInput, setUseDateInput] = useState(inputSearchParam ? false : true);
+  const [dateInput, setDateInput] = useState(() => buildDateTimeInputFormat());
+  const [useDateInput, setUseDateInput] = useState(!inputSearchParam);
 
   // Settings
-  const [showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps] = useState<boolean>(settings?.showOnlyDiscordTimestamps ?? false);
-  const [searchParamStateDisabled, setSearchParamStateDisabled] = useState(settings?.searchParamStateDisabled ?? false);
-  const [timeTickingDisabled, setTimeTickingDisabled] = useState(settings?.timeTickingDisabled ?? false);
-  const [timestampParseMilliseconds, setTimestampParseMilliseconds] = useState<boolean>(settings?.timestampParseMilliseconds ?? false);
-  const [strictMode, setStrictMode] = useState(settings?.strictMode ?? false);
-  const [use24HourFormat, setUse24HourFormat] = useState(settings?.use24HourFormat ?? false);
-  const [sortTimezonesByTime, setSortTimezonesByTime] = useState(settings?.sortTimezonesByTime ?? false);
+  const [showOnlyDiscordTimestamps, setshowOnlyDiscordTimestamps] = useState<boolean>(settings.showOnlyDiscordTimestamps ?? false);
+  const [searchParamStateDisabled, setSearchParamStateDisabled] = useState(settings.searchParamStateDisabled ?? false);
+  const [timeTickingDisabled, setTimeTickingDisabled] = useState(settings.timeTickingDisabled ?? false);
+  const [timestampParseMilliseconds, setTimestampParseMilliseconds] = useState<boolean>(settings.timestampParseMilliseconds ?? false);
+  const [strictMode, setStrictMode] = useState(settings.strictMode ?? false);
+  const [use24HourFormat, setUse24HourFormat] = useState(settings.use24HourFormat ?? false);
+  const [sortTimezonesByTime, setSortTimezonesByTime] = useState(settings.sortTimezonesByTime ?? false);
 
   const input = useDateInput ? dateInput : textInput;
 
-  // Set datetime-local input to current date on first render
-  useEffect(() => {
-    setDateInput(buildDateTimeInputFormat());
-    setHasRendered(true);
-  }, []);
-
   // Add text/date input to the URL searchParams
   useEffect(() => {
-    const url = new URL(window.location.href);
-
-    // If searchParamStateDisabled is true, remove the input searchParam
-    if (searchParamStateDisabled) {
-      url.searchParams.delete("input");
-    } else {
-      input === "" ? url.searchParams.delete("input") : url.searchParams.set("input", input);
-    }
-
-    // Replace the URL with the new URL - The next router triggers a network request, which is not what we want
-    // router.replace(url.toString());
-    window.history.replaceState({}, "", url.toString());
+    navigate({
+      search: searchParamStateDisabled || textInput === "" ? { input: undefined } : { input: textInput },
+      replace: true,
+    });
   }, [textInput, searchParamStateDisabled]);
 
   let parsedDate = strictMode ? strict.parseDate(input) : parseDate(input);
@@ -88,7 +72,7 @@ export const Main = () => {
     // If the input is not a valid number, set the datetime-local input to the parsed date
     // buildDateTimeInputFormat() builds the string that the datetime-local input accepts.
     // If no date is passed (if parseDate fails), it defaults to the current date
-    setDateInput(buildDateTimeInputFormat(parseDate(inputValue)));
+    setDateInput(buildDateTimeInputFormat(parseDate(inputValue) ?? undefined));
 
     setUseDateInput(false);
   };
@@ -99,8 +83,6 @@ export const Main = () => {
     setDateInput(e.target.value.replace("T", " "));
     setUseDateInput(true);
   };
-
-  if (!hasRendered) return null;
 
   return (
     <>
@@ -117,7 +99,7 @@ export const Main = () => {
         />
 
         <input
-          className="rounded-md border border-black/50 p-2 text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
+          className="rounded-md border border-black/50 p-2 font-mono text-xl text-black data-[current-input=false]:border-dashed dark:border-white/50 dark:bg-neutral-950 dark:text-white"
           type="datetime-local"
           step={1}
           aria-label="A date/time picker that chooses what date to show on the website."
@@ -132,7 +114,7 @@ export const Main = () => {
         {["now", "tomorrow", "next tuesday at 6am", "next friday at 13:45:32", "last friday", "in 69 days at 4:20 pm"].map(example => (
           <button
             key={example}
-            className="select-none rounded-md border border-black/50 p-2 px-3 transition-colors hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800"
+            className="rounded-md border border-black/50 p-2 px-3 transition-colors select-none hover:bg-neutral-200 dark:border-white/50 dark:bg-neutral-950 dark:hover:bg-neutral-800"
             aria-label="A button that populates the website with an exmaple date."
             onClick={() => onTextInput(example)}
           >
@@ -174,5 +156,3 @@ export const Main = () => {
     </>
   );
 };
-
-export default Main;
