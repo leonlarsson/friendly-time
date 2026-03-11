@@ -47,7 +47,7 @@ export const Settings: FC<Props> = ({
     },
     {
       name: "No time ticking",
-      description: `If enabled, do not update the time each second. Otherwise, update the time each second..`,
+      description: `If enabled, do not update the time each second. Otherwise, update the time each second.`,
       value: timeTickingDisabled,
       setValue: setTimeTickingDisabled,
     },
