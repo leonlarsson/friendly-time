@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "format": "prettier --write ."
+    "preview": "npm run build && wrangler dev",
+    "format": "prettier --write .",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.166.7",
@@ -30,6 +31,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.2.1",
     "typescript": "5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "wrangler": "^4.72.0"
   }
 }
